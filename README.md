@@ -3,4 +3,4 @@ Separate repository for UI element of McKenzies project as it will be hosted on 
 
 https://mckenziespharmacy.netlify.com/
 
-![alt text](https://github.com/neilpimley/McKenziesPharmacy-ui/blob/master/screenshot.png)
+![alt text](https://github.com/neilpimley/McKenziesPharmacy-ui/master/screenshot.png)
