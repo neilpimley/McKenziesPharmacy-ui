@@ -1,0 +1,9 @@
+<p-dialog header="Sign up" [(visible)]="showModal" modal="modal" responsive="true" dismissableMask="true" width="350">
+    <form class="form-signin">
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input type="email" name="inputEmail" class="form-control row-space" placeholder="Email address" required autofocus [(ngModel)]="model.username">
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" name="inputPassword" class="form-control row-space" placeholder="Password" required [(ngModel)]="model.password">
+        <button class="btn btn-success btn-block row-space" (click)="signup()" type="submit">Sign up</button>
+    </form>
+</p-dialog>

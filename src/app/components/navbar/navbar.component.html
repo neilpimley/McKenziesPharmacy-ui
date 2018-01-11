@@ -1,0 +1,57 @@
+﻿<nav class="navbar navbar-inverse fixed-top bg-inverse" *ngIf="!auth.authenticated()">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="btn-group">
+                    <a class='btn btn-danger disabled'><i class="fa fa-google-plus text-white" style="width:16px; height:20px"></i></a>
+                    <a class='btn btn-danger text-white cursor-hover' (click)="auth.googleLogin()" style="width:12em;"> Sign up with Google</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="btn-group">
+                    <a class='btn btn-primary disabled'><i class="fa fa-facebook text-white" style="width:16px; height:20px"></i></a>
+                    <a class='btn btn-primary text-white cursor-hover' (click)="auth.facebookLogin()" style="width:12em"> Sign up with Facebook</a>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="email-link">
+                    <a (click)="showSignupModal()" class="text-white cursor-hover">use email</a>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-outline-success my-2 my-sm-0 cursor-hover" (click)="showLoginModal()">Log in</button>
+            </div>
+        </div>
+
+    </div>
+</nav>
+
+
+<nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse fixed-top" *ngIf="auth.authenticated()">
+    <div class="container">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="#">
+            <img src="/assets/images/cross.png" width="30" height="30" class="d-inline-block align-top" alt="">
+            McKenzies Pharmacy
+        </a>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="nav navbar-nav ml-auto w-100 justify-content-end" *ngIf="router.url !='register'">
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/reminders" routerLinkActive="active">Reminders</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/previous-orders" routerLinkActive="active">Previous Orders</a>
+                </li>
+            </ul>
+
+            <button *ngIf="router.url !='register'" class="btn btn-outline-secondary my-2 my-sm-0" (click)="logout()">Logout</button>
+            <button *ngIf="router.url ==='register'" class="btn btn-outline-secondary my-2 my-sm-0" (click)="logout()">Cancel</button>
+
+        </div>
+    </div>
+</nav>
+<login></login>
+<signup></signup>

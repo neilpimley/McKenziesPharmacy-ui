@@ -1,0 +1,17 @@
+﻿
+
+.fa-google-plus, .fa-facebook {
+    width: 16px;
+    height: 20px;
+}
+.btn-wide { 
+        width:260px;
+    }
+@media (min-width: 576px) { 
+     .btn-wide { 
+        width:300px;
+    }
+}
+
+
+

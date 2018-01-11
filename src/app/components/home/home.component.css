@@ -1,0 +1,8 @@
+﻿ .jumbotron {
+    background-image: url('/assets/images/main.jpg');
+    background-size: cover;
+    height: 400px;
+}
+ .sebm-google-map-container {
+  height: 300px;
+}

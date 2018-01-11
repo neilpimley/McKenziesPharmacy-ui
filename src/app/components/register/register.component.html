@@ -1,0 +1,196 @@
+﻿    <div class="container inner-page">
+        <h2>Register as new customer</h2>
+        <pre>{{diagnostic}}</pre>
+        <small>submitted:{{submitted}}</small>
+        <form (ngSubmit)="registerCustomer()" #registerForm="ngForm">
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="Email">Email address</label>
+                    <input class="form-control" id="Email" name="Email" type="text" [(ngModel)]="customer.email" [disabled]="customer.email" #email="ngModel" />
+                </div>
+                <div class="form-group col-md-6" *ngIf="!customer.email">
+                    <label for="ConfirmEmail">Confirm email address</label>
+                    <input class="form-control" id="ConfirmEmail" name="ConfirmEmail" type="text" [(ngModel)]="customer.confirmEmail" #confirmEmail="ngModel" />
+                </div>
+            </div>
+
+            <div class="row row-space" *ngIf="!customer.email">
+                <div class="form-group col-md-6">
+                    <label for="Password">Password</label>
+                    <input class="form-control" id="Password" name="Password" type="password" [(ngModel)]="customer.password" #password="ngModel" />
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="ConfirmPassword">Confirm password</label>
+                    <input class="form-control" id="ConfirmPassword" name="ConfirmPassword" type="password" [(ngModel)]="customer.confirmPassword" #confirmPassword="ngModel" />
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-2" [ngClass]="{'has-danger':submitted && customer.titleID === ''}">
+                    <label for="TitleID">Title</label>
+                    <select class="form-control" id="TitleID" name="TitleID" [(ngModel)]="customer.titleID" #titleID="ngModel" required>
+                        <option value="">choose</option>
+                        <option *ngFor="let title of titles" [value]="title.titleID">{{title.titleName}}</option>
+                    </select>
+                    <div *ngIf="titleID.errors && (titleID.dirty || titleID.touched)" class="alert alert-danger">
+                        <div [hidden]="!titleID.errors.required">
+                            Title is required
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-5" [ngClass]="{'has-danger':submitted && customer.firstname ===''}">
+                    <label for="Firstname">Firstname</label>
+                    <input class="form-control" id="Firstname" name="Firstname" type="text" [(ngModel)]="customer.firstname" #firstname="ngModel" required />
+                    <div *ngIf="firstname.errors && (firstname.dirty || firstname.touched)" class="alert alert-danger">
+                        <div [hidden]="!firstname.errors.required">
+                            Firstname is required
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-5" [ngClass]="{'has-danger':submitted && customer.lastname ===''}">
+                    <label for="Lastname">Lastname</label>
+                    <input class="form-control" id="Lastname" name="Lastname" type="text" [(ngModel)]="customer.lastname" #lastname="ngModel" required />
+                    <div *ngIf="lastname.errors && (lastname.dirty || lastname.touched)" class="alert alert-danger">
+                        <div [hidden]="!lastname.errors.required">
+                            Lastname is required
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-2" [ngClass]="{'has-danger':submitted && customer.sex === '' }">
+                    <label for="Sex">Sex</label>
+                    <select class="form-control" id="Sex" name="Sex" [(ngModel)]="customer.sex" #sex="ngModel" required>
+                        <option value="">choose</option>
+                        <option *ngFor="let gender of genders" [value]="gender.value">{{gender.label}}</option>
+                    </select>
+                    <div *ngIf="sex.errors && (sex.dirty || sex.touched)" class="alert alert-danger">
+                        <div [hidden]="!sex.errors.required">
+                            Gender is required
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-3" [ngClass]="{'has-danger':submitted && !customer.dob}">
+                    <label for="Dob">Date of birth</label>
+                    <input class="form-control" id="Dob" name="Dob" type="date" [(ngModel)]="customer.dob" #dob="ngModel" required />
+                    <div *ngIf="dob.errors && (dob.dirty || dob.touched)" class="alert alert-danger">
+                        <div [hidden]="!dob.errors.required">
+                            Date of birth is required
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-4" [ngClass]="{'has-danger':submitted && !customer.mobile}">
+                    <label for="mobile">Mobile</label>
+                    <input class="form-control" id="mobile" name="mobile" type="text" [(ngModel)]="customer.mobile" #mobile="ngModel" required maxlength="11" minlength="11"/>
+                    <div *ngIf="mobile.errors && (mobile.dirty || mobile.touched)" class="alert alert-danger">
+                        <div [hidden]="!mobile.errors.required">
+                            Mobile is required
+                        </div>
+                        <div [hidden]="!mobile.errors.maxlength">
+                            Mobile should be in format 07XXX XXXXXX
+                        </div>
+                        <div [hidden]="!mobile.errors.minlength">
+                            Mobile should be in format 07XXX XXXXXX
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-groupc col-md-3">
+                    <label for="Home">Home</label>
+                    <input class="form-control" id="Home" name="Home" type="text" [(ngModel)]="customer.home" #home="ngModel" />
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="Postcode">Postcode</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search by postcode" name="postcode" [(ngModel)]="customer.address.postcode" required />
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button" (click)="lookupAddress()"><i class="fa fa-search" aria-hidden="true"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" *ngIf="showAddressList" (change)="selectAddress($event.target.value)">
+                            <option value="">choose</option>
+                            <option *ngFor="let address of addresses; let idx = index" [value]="idx">{{address.addressLine1}}, {{address.town}}</option>
+                        </select>
+                        <div id="address-fields" *ngIf="addressSelected">
+                            <label for="AddressLine1">Address</label>
+                            <input class="form-control" id="AddressLine1" name="AddressLine1" type="text" [(ngModel)]="customer.address.addressLine1" #addressLine1="ngModel" />
+                            <div *ngIf="addressLine1.errors && (addressLine1.dirty || addressLine1.touched)" class="alert alert-danger">
+                                <div [hidden]="!addressLine1.errors.required">
+                                    Address is required
+                                </div>
+                            </div>
+                            <input class="form-control" id="Town" name="Town" type="text" [(ngModel)]="customer.address.town" #town="ngModel" />
+                            <div *ngIf="town.errors && (town.dirty || town.touched)" class="alert alert-danger">
+                                <div [hidden]="!town.errors.required">
+                                    Town is required
+                                </div>
+                            </div>
+                            <input class="form-control" id="Postcode" name="Postcode" type="text" [(ngModel)]="customer.address.postcode" #postcode="ngModel"/>
+                            <div *ngIf="postcode.errors && (postcode.dirty || postcode.touched)" class="alert alert-danger">
+                                <div [hidden]="!postcode.errors.required">
+                                    Postcode is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="form-group col-md-6" [ngClass]="{'has-danger':submitted && practiceID === ''}">
+                        <label for="PracticeID">GP Surgery</label>
+                        <select [ngClass]="{'form-control-danger':submitted && practiceID ===_guid}" id="PracticeID" name="PracticeID" class="form-control" [(ngModel)]="practiceID" (ngModelChange)="getDoctors($event)" #practiceIDField="ngModel" required>
+                            <option value="">choose</option>
+                            <option *ngFor="let practice of practices" [value]="practice.practiceID">{{practice.practiceName}}</option>
+                        </select>
+                        <div *ngIf="practiceIDField.errors && (practiceIDField.dirty || practiceIDField.touched)" class="alert alert-danger">
+                            <div [hidden]="!practiceIDField.errors.required">
+                                Practice is required
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6" [ngClass]="{'has-danger':submitted && customer.doctorID === ''}">
+                        <label for="DoctorID">Doctor</label>
+                        <select [ngClass]="{'form-control-danger':submitted && customer.doctorID ===_guid}" id="DoctorID" name="DoctorID" class="form-control" [(ngModel)]="customer.doctorID"  #doctorID="ngModel" required>
+                            <option value="">choose</option>
+                            <option *ngFor="let doctor of doctors" [value]="doctor.doctorID">Dr. {{doctor.firstname}} {{doctor.surname}}</option>
+                        </select>
+                        <div *ngIf="doctorID.errors && (doctorID.dirty || doctorID.touched)" class="alert alert-danger">
+                            <div [hidden]="!doctorID.errors.required">
+                                Doctor is required
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6" [ngClass]="{'has-danger':submitted && customer.shopID === ''}">
+                        <label for="ShopID">Nearest pharmacy</label>
+                        <select id="ShopID" name="ShopID" class="form-control" [(ngModel)]="customer.shopID" #shopID="ngModel" required="">
+                            <option value="">choose</option>
+                            <option *ngFor="let shop of shops" [value]="shop.shopID">{{shop.shopName}}</option>
+                        </select>
+                        <div *ngIf="shopID.errors && (shopID.dirty || shopID.touched)" class="alert alert-danger">
+                            <div [hidden]="!shopID.errors.required">
+                                Shop is required
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                I agree to the <a routerLink="/terms">terms and conditions</a>
+                <ui-switch size="small" [(ngModel)]="agreeTerms" name="agreeTerms"></ui-switch>
+                <button class="btn btn-success float-right" type="submit" title="Register" [disabled]="!registerForm.valid">Register</button>
+            </div>
+        </div>
+    </form>
+</div>  
+<simple-notifications [options]="toastOptions"></simple-notifications>

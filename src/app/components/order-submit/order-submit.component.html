@@ -1,0 +1,30 @@
+<div class="container inner-page">
+    <h2>Submit order</h2>
+
+    <div class="row">
+        <div class="col-md-9">
+            <img *ngIf="loadingOrder" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+
+            <div *ngIf="order">
+                <h6>You are requesting a script for the following items</h6>
+                <ul>
+                    <li *ngFor="let item of order.items">{{ item.drugName }} x {{ item.qty }}</li>
+                </ul>
+
+                <h6>Would you like to receive a reminder to re-order your script?</h6>
+                <label>Receive email reminder</label>
+                <ui-switch size="small" [(ngModel)]="order.emailReminder"></ui-switch><br />
+                <label>Receice SMS reminder</label>
+                <ui-switch size="small" [(ngModel)]="order.smsReminder"></ui-switch>
+
+            </div>
+        </div>
+        <div class="col-md-3">
+            <customer (messageOut)="showNotification($event)" [canEdit]="false"></customer>
+            <button class="btn btn-block btn-outline-primary" (click)="back()">Back</button>
+            <button class="btn btn-block btn-success" (click)="submitOrder()" [disabled]="!order">Submit order</button>
+        </div>
+    </div>
+
+    
+</div>

@@ -1,0 +1,94 @@
+<form autocomplete="off" method="post" *ngIf="customer">
+    <div class="container inner-page">
+        <h2>Edit Personal Details</h2>
+        
+        <div class="row">
+            <div class="form-group col-md-2">
+                <label for="TitleID">Title</label>
+                <select class="form-control" id="TitleID" name="TitleID" [(ngModel)]="customer.titleID" [disabled]="!editMode">
+                    <option *ngFor="let title of titles" [value]="title.titleID">{{title.titleName}}</option>
+                </select>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="Firstname">Firstname</label>
+                <input class="form-control" id="Firstname" name="Firstname" type="text" [(ngModel)]="customer.firstname" [disabled]="!editMode"/>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="Lastname">Lastname</label> 
+                <input class="form-control" id="Lastname" name="Lastname" type="text" [(ngModel)]="customer.lastname" [disabled]="!editMode" />
+            </div>
+            <div class="form-group col-md-2">
+                <label for="Dob">Date of Bith</label> 
+                <input class="form-control" id="Dob" name="Dob" type="text" [value]="customer.dob | date:'dd/MM/yyyy'" disabled />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-3">
+                <label for="Mobile">Mobile</label>
+                <input class="form-control" id="Mobile" name="Mobile" type="text" [(ngModel)]="customer.mobile" [disabled]="!editMode" />
+            </div>
+            <div class="form-groupc col-md-3">
+                <label for="Home">Home</label>
+                <input class="form-control" id="Home" name="Home" type="text" [(ngModel)]="customer.home" [disabled]="!editMode" />
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="Postcode">Postcode</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search by postcode" name="postcode" [(ngModel)]="customer.address.postcode" [disabled]="!editMode" />
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="button" (click)="lookupAddress()"><i class="fa fa-search" aria-hidden="true"></i></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" *ngIf="showAddressList" (change)="selectAddress($event.target.value)" [disabled]="!editMode">
+                        <option value="">choose</option>
+                        <option *ngFor="let address of addresses" [value]="address">{{address}}</option>
+                    </select>
+                    <div id="address-fields" *ngIf="addressSelected">
+                        <label for="AddressLine1">Address</label> 
+                        <input class="form-control" id="AddressLine1" name="AddressLine1" type="text" [(ngModel)]="customer.address.addressLine1" [disabled]="!editMode" />
+                        <input class="form-control" id="Town" name="Town" type="text" [(ngModel)]="customer.address.town" [disabled]="!editMode" />
+                        <input class="form-control" id="Postcode" name="Postcode" type="text" [(ngModel)]="customer.address.postcode" [disabled]="!editMode" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="form-group col-md-6">
+                    <label for="PracticeID">GP Surgery</label> 
+                    <select id="PracticeID" name="PracticeID" class="form-control" [(ngModel)]="customer.doctor.practiceID" (ngModelChange)="getDoctors($event)" [disabled]="!editMode">
+                        <option *ngFor="let practice of practices" [value]="practice.practiceID">{{practice.practiceName}}</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="DoctorID">Doctor</label>
+                    <select id="DoctorID" name="DoctorID" class="form-control" [(ngModel)]="customer.doctorID" [disabled]="!editMode">
+                        <option *ngFor="let doctor of doctors" [value]="doctor.doctorID">Dr. {{doctor.firstname}} {{doctor.surname}}</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="ShopID">Nearest pharmacy</label>
+                    <select id="ShopID" name="ShopID" class="form-control" [(ngModel)]="customer.shopID" [disabled]="!editMode">
+                        <option *ngFor="let shop of shops" [value]="shop.shopID">{{shop.shopName}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-end">
+            <div class="col-md-4">
+                <button class="btn btn-outline-primary" routerLink="/order" title="Cancel">Cancel</button>
+                <button class="btn btn-primary" [hidden]="editMode" (click)="editMode=true" title="Edit">Edit</button>
+                <button class="btn btn-success" [hidden]="!editMode" (click)="save()" title="Save">Save</button>
+            </div>
+        </div>
+
+    </div>
+</form>        
+<simple-notifications [options]="toastOptions"></simple-notifications>

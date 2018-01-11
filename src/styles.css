@@ -1,0 +1,100 @@
+/* You can add global styles to this file, and also import other style files */
+
+        main {
+            padding-top: 2rem;
+        }
+        .inner-page { padding-top: 30px }
+        .jumbotron {
+            background-image: url('/assets/images/main.jpg');
+            background-size: cover;
+            height: 800px;
+        }
+        .form-signin {
+          max-width: 380px;
+          padding: 15px;
+          margin: 0 auto;
+          background: rgba(0,0,0,0.75);
+          color: #fff;
+        }
+        .form-signin .checkbox {
+          font-weight: normal;
+        }
+        .form-signin .form-control {
+          position: relative;
+          height: auto;
+          -webkit-box-sizing: border-box;
+                  box-sizing: border-box;
+          padding: 10px;
+          font-size: 16px;
+        }
+        .form-signin .form-control:focus {
+          z-index: 2;
+        }
+        .form-signin input[type="email"] {
+          border-bottom-right-radius: 0;
+          border-bottom-left-radius: 0;
+        }
+        .form-signin input[type="password"] {
+          border-top-left-radius: 0;
+          border-top-right-radius: 0;
+        }
+        .form-signin-heading {
+            background: rgba(0,0,0,0.75);
+            color: #fff;
+            line-height: 70px;
+            margin-bottom: 0;
+            margin-top: 0;
+        }
+        .row-space { margin-bottom: 30px;}
+        .email-link { padding-top:8px; }
+        .bg-opaque { background: rgba(0,0,0,0.55); }
+         .cursor-hover { cursor: pointer; }
+         .padded-out { padding-left:20px; padding-bottom:30px; } 
+         .bottom-space { margin-bottom: 30px; }
+         .inner-page { margin-top : 15px; }
+
+
+body .ui-widget-content {
+    border: 0;
+}
+
+body .ui-dialog .ui-dialog-content {
+    padding: 0;
+}
+body .ui-dialog .ui-dialog-titlebar .ui-dialog-title {
+    font-weight: 500;
+    font-size: 2rem;
+}
+body .ui-dialog .ui-dialog-titlebar {
+    text-align: center;
+    padding: 0.5em;
+    background: rgba(0,0,0,0.75);
+    color: #fff;
+    border: 0;
+}
+
+.fixed-top{
+    z-index: 999;
+
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+footer {
+  position: absolute;
+  color: #fff;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 40px;
+  line-height: 40px; /* Vertically center the text there */
+  background-color: #292b2c !important;
+}

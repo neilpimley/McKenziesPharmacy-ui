@@ -1,0 +1,17 @@
+﻿<div class="container inner-page">
+    <div class="row">
+        <div class="col-md-4">
+            <h4>Drugs</h4>
+            <drugs (successOut)="showSuccess($event)" (errorOut)="showError($event)" (drugOut)="drugAdded($event)"></drugs>
+        </div>
+        <div class="col-md-5">
+            <h4>My order</h4>
+            <basket [orderId]="orderid" [drugId]="addedDrug.drugID" (canOrder)="toggleOrderButton($event)" (successOut)="showSuccess($event)" (errorOut)="showError($event)"></basket>
+        </div>
+        <div class="col-md-3">
+            <customer [canEdit]="true"></customer>
+            <button class="btn btn-block btn-success" (click)="submitOrder()" [disabled]="!enableOrderButon">Place order</button>
+        </div>
+    </div>
+</div>
+<simple-notifications [options]="toastOptions"></simple-notifications>

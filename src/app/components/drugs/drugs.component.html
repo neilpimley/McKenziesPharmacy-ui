@@ -1,0 +1,36 @@
+﻿<tabset>
+    <tab heading="Search" class="border-tab" [active]="tab == 'search'" (select)="tab='search'">
+        <p>Type the name of your medication in the box below and we'll automatically search for it...</p>
+        <input type="text" class="form-control" #search (keyup)="searchDrugs(search.value)">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <tbody>
+                    <tr *ngFor="let drug of drugs;" (click)="selectedDrug(drug)"
+                        [class.active]="isSelected(drug)">
+                        <td>{{drug.drugName}}</td>
+                        <td><i *ngIf="!drug.isFavourite" class="fa fa-heart cursor-hover" (click)="addFavourite(drug)" title="Add to favourites"></i></td>
+                        <td><i class="fa fa-plus cursor-hover" (click)="addToBasket(drug)" title="Add to basket"></i></td>
+                    </tr>
+                </tbody>
+            </table>
+            <img *ngIf="loadingDrugs" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+            <span class="error">{{drugsError}}</span>
+        </div>
+    </tab>
+    <tab heading="Favourites" class="border-tab" [active]="tab != 'search'" (select)="tab='favourites'">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <tbody>
+                    <tr *ngFor="let favouriteDrug of favourites;" (click)="selectedFavourite(favouriteDrug)"
+                        [class.active]="isSelectedFavourite(favouriteDrug)">
+                        <td>{{favouriteDrug.drugName}}</td>
+                        <td><i class="fa fa-trash cursor-hover" (click)="removeFavourite(favouriteDrug)" title="Remove from favourites"></i></td>
+                        <td><i class="fa fa-plus cursor-hover" (click)="addToBasket(favouriteDrug)" title="Add to order"></i></td>
+                    </tr>
+                </tbody>
+            </table>
+            <img *ngIf="loadingFavourites" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+            <span class="error">{{favouritesError}}</span>
+        </div>
+    </tab>
+</tabset>
