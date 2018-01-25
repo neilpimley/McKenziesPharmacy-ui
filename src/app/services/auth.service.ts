@@ -1,153 +1,193 @@
-﻿import { Injectable }  from '@angular/core';
+import { Injectable } from '@angular/core';
 import { tokenNotExpired, AuthHttp } from 'angular2-jwt';
 import { Router } from '@angular/router';
 import { CustomersService } from './customers.service';
 import { myConfig } from '../config/auth.config';
 import { environment } from '../../environments/environment';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-
 import { CustomerPoco } from '../models/CustomerPoco';
+import * as auth0 from 'auth0-js';
 
-// Avoid name not found warnings
 declare var Auth0: any;
 
 @Injectable()
 export class AuthService {
-    // Configure Auth0
-    
-    auth0 = new Auth0({
-        domain: myConfig.domain,
-        clientID: myConfig.clientID,
-        callbackOnLocationHash: true,
-        callbackURL: environment.callbackURL,
-    }); 
+  auth0 = new auth0.WebAuth({
+    clientID: myConfig.CLIENT_ID,
+    domain: myConfig.CLIENT_DOMAIN,
+    responseType: 'token id_token',
+    audience: myConfig.AUDIENCE,
+    redirectUri: myConfig.REDIRECT,
+    scope: myConfig.SCOPE
+  });
 
-    userProfile: Object;
+  userProfile: Object;
 
-    constructor(private router: Router, private customersService: CustomersService, private authHttp: AuthHttp) {
-        var result = this.auth0.parseHash(window.location.hash);
+  constructor(
+    private router: Router,
+    private customersService: CustomersService,
+    private authHttp: AuthHttp
+  ) {}
 
-        // Set userProfile attribute of already saved profile
-        this.userProfile = JSON.parse(localStorage.getItem('profile'));
+  public handleAuthentication(): void {
+    this.auth0.parseHash({ _idTokenVerification: false }, (err, authResult) => {
+      if (err) {
+        alert(`Error: ${err.errorDescription}`);
+      }
+      if (authResult && authResult.accessToken && authResult.idToken) {
+        console.log('loggged in ');
+        window.location.hash = '';
+        localStorage.setItem('access_token', authResult.accessToken);
+        localStorage.setItem('id_token', authResult.idToken);
 
-        if (result && result.idToken) {
-            localStorage.setItem('id_token', result.idToken);
-
-            // Fetch profile information
-            this.auth0.getProfile(result.idToken, (error: any, profile:any) => {
-                if (error) {
-                    // Handle error
-                    alert(error);
-                    return;
-                }
-
+        this.auth0.client.userInfo(
+            authResult.accessToken,
+            (err, profile) => {
+            console.log('profile: ' + profile);
+            if (profile) {
                 localStorage.setItem('profile', JSON.stringify(profile));
                 this.userProfile = profile;
 
-                if (profile.user_metadata && profile.user_metadata.customerId)
+                if (profile.user_metadata && profile.user_metadata.customerId) {
                     this.router.navigate(['/order']);
-                else
+                } else {
                     this.router.navigate(['/register']);
-            });
+                }
+            }
+        });
 
-            
-        } else if (result && result.error) {
-            alert('error: ' + result.error);
+      }
+    });
+  }
+
+  public currentUser(): any {
+    return this.userProfile;
+  }
+
+  public login(username: string, password: string) {
+    this.auth0.redirect.loginWithCredentials(
+      {
+        connection: 'Username-Password-Authentication',
+        username,
+        password
+      },
+      function(err: any) {
+        if (err) {
+          console.error('something went wrong: ' + err.message);
+          this.router.navigate(['/login', err.message]);
         }
-    }
+      }
+    );
+    /*
+     this.auth0.login({
+        connection: 'Username-Password-Authentication',
+        responseType: 'token',
+        email: username,
+        password: password,
+    }, function (err: any) {
+        if (err) {
+            console.error('something went wrong: ' + err.message);
+            this.router.navigate(['/login', err.message]);
+        }
+    });
+    */
+  }
 
-    public currentUser():any {
-        return this.userProfile;
-    }
 
-    public login(username:any, password:any):void {
-        this.auth0.login({
-            connection: 'Username-Password-Authentication',
-            responseType: 'token',
-            email: username,
-            password: password,
-        }, function (err: any) {
-            if (err) {
-                console.error("something went wrong: " + err.message);
-                this.router.navigate(['/login', err.message]);
-            }
-        });
+  public authenticated(): any {
+    // Check if there's an unexpired JWT
+    // This searches for an item in localStorage with key == 'id_token'
+    return tokenNotExpired();
+  }
+
+  public googleLogin(): void {
+    this.auth0.authorize(
+      {
+        connection: 'google-oauth2'
+      },
+      function(err: any) {
+        if (err) {
+          alert('something went wrong: ' + err.message);
+        }
+        console.log('google login successful');
+      }
+    );
+  }
+
+  public facebookLogin(): void {
+    this.auth0.authorize(
+      {
+        connection: 'facebook'
+      },
+      function(err: any) {
+        if (err) {
+          alert('something went wrong: ' + err.message);
+        }
+        console.log('facebook login successful');
+      }
+    );
+  }
+
+  public signup(email: any, password: any): void {
+    this.auth0.redirect.signupAndLogin(
+      {
+        connection: 'Username-Password-Authentication',
+        email,
+        password
+      },
+      function(err: any) {
+        if (err) {
+          alert('Error: ' + err.description);
+        }
+      }
+    );
+  }
+
+  public logout(): void {
+    // Remove token from localStorage
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('id_token');
+    localStorage.removeItem('profile');
+    this.userProfile = undefined;
+    this.router.navigate(['/home']);
+  }
+
+  private setUser(authResult) {
+    localStorage.setItem('access_token', authResult.accessToken);
+    localStorage.setItem('id_token', authResult.idToken);
+  }
+
+  confirmRegistration(customer: CustomerPoco): void {
+    const headers: any = {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
     };
+    const data: any = JSON.stringify({
+      user_metadata: {
+        customerId: customer.customerID,
+        addressId: customer.addressID,
+        doctorId: customer.doctorID,
+        shopId: customer.shopID,
+        signed_up: true
+      }
+    });
 
-    public googleLogin(): void {
-        this.auth0.login({
-            connection: 'google-oauth2'
-        }, function (err: any) {
-            if (err) {
-                alert("something went wrong: " + err.message);
-            }
-            console.log('google login successful');
-        });
-    };
-
-    public facebookLogin(): void {
-        this.auth0.login({
-            connection: 'facebook'
-        }, function (err: any) {
-            if (err) {
-                alert("something went wrong: " + err.message);
-            }
-            console.log('facebook login successful');
-        });
-    };
-
-
-
-    public signup(email: any, password: any): void {
-        this.auth0.redirect.signupAndLogin({
-            connection: 'Username-Password-Authentication',
-            email,
-            password,
-        }, function (err: any) {
-            if (err) {
-                alert('Error: ' + err.description);
-            }
-        });
-    }
-
-    public authenticated():any {
-        // Check if there's an unexpired JWT
-        // It searches for an item in localStorage with key == 'id_token'
-        return tokenNotExpired();
-    };
-
-    public logout(): void {
-        // Remove token from localStorage
-        localStorage.removeItem('id_token');
-        localStorage.removeItem('profile');
-        this.userProfile = undefined;
-        this.router.navigate(['/home']);
-    };
-
-    confirmRegistration(customer: CustomerPoco): void {
-        var headers: any = { 'Accept': 'application/json', 'Content-Type': 'application/json' };
-        var data: any = JSON.stringify({
-            user_metadata: {
-                customerId: customer.customerID,
-                addressId: customer.addressID,
-                doctorId: customer.doctorID,
-                shopId: customer.shopID,
-                signed_up: true
-            }
-        });
-
-        this.authHttp.patch('https://' + myConfig.domain + '/api/v2/users/' + this.userProfile["user_id"], data, { headers: headers })
-            .map(response => response.json())
-                .subscribe((response) => {
-                    this.userProfile = response;
-                    localStorage.setItem('profile', JSON.stringify(response));
-                    this.router.navigate(['/order']);
-            },
-                (error) =>
-                    console.log(error.json().message)
-            );
-    }
-      
-
+    this.authHttp
+      .patch(
+        'https://' +
+          myConfig.CLIENT_DOMAIN +
+          '/api/v2/users/' +
+          this.userProfile['user_id'],
+        data,
+        { headers: headers }
+      )
+      .map(response => response.json())
+      .subscribe(
+        response => {
+          this.userProfile = response;
+          localStorage.setItem('profile', JSON.stringify(response));
+          this.router.navigate(['/order']);
+        },
+        error => console.log(error.json().message)
+      );
+  }
 }

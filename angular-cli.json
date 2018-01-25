@@ -29,7 +29,8 @@
             "../node_modules/tether/dist/js/tether.js",
             "../node_modules/bootstrap/dist/js/bootstrap.js",
             "../node_modules/moment/min/moment.min.js",
-            "../node_modules/fullcalendar/dist/fullcalendar.min.js"
+            "../node_modules/fullcalendar/dist/fullcalendar.min.js",
+            "../node_modules/auth0-js/build/auth0.js"
         ],
         "environmentSource": "environments/environment.ts",
         "environments": {
