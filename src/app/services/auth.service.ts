@@ -14,7 +14,7 @@ export class AuthService {
   auth0 = new auth0.WebAuth({
     clientID: myConfig.CLIENT_ID,
     domain: myConfig.CLIENT_DOMAIN,
-    responseType: 'token id_token',
+    responseType: 'token id_token access_token',
     audience: myConfig.AUDIENCE,
     redirectUri: myConfig.REDIRECT,
     scope: myConfig.SCOPE
@@ -96,7 +96,7 @@ export class AuthService {
   public authenticated(): any {
     // Check if there's an unexpired JWT
     // This searches for an item in localStorage with key == 'id_token'
-    return tokenNotExpired();
+    return tokenNotExpired('id_token');
   }
 
   public googleLogin(): void {

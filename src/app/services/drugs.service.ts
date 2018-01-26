@@ -5,13 +5,14 @@ import { AuthHttp } from 'angular2-jwt';
 import { Observable } from 'rxjs/Observable';
 import { DrugPoco } from '../models/DrugPoco';
 import { Favourite } from '../models/Favourite';
+import { environment } from '../../environments/environment';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class DrugsService {
-    private drugsUrl: string = '/api/Drugs';
-    private favouritesUrl: string = '/api/Favourites';
+    private drugsUrl: string = environment.apiUrl + '/api/Drugs';
+    private favouritesUrl: string = environment.apiUrl + '/api/Favourites';
     private _guid: string = '00000000-0000-0000-0000-000000000000';
 
     constructor(private authHttp: AuthHttp) { }
