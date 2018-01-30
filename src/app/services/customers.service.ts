@@ -6,13 +6,14 @@ import { Observable } from 'rxjs/Observable';
 import { CustomerPoco } from '../models/CustomerPoco';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class CustomersService {
-    private customersUrl: string = '/api/Customers';
-    private shopUrl: string = '/api/Shop';
-    private doctorUrl: string = '/api/Doctor';
-    private addressUrl: string = '/api/Address';
+    private customersUrl: string = environment.apiUrl + '/api/Customers';
+    private shopUrl: string = environment.apiUrl + '/api/Shop';
+    private doctorUrl: string = environment.apiUrl + '/api/Doctor';
+    private addressUrl: string = environment.apiUrl + '/api/Address';
 
     constructor(private authHttp: AuthHttp) { }
 

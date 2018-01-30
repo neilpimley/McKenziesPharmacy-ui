@@ -5,7 +5,7 @@ import { AuthHttp } from 'angular2-jwt';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-
+import { environment } from '../../environments/environment';
 import { Order } from '../models/Order';
 import { OrderLine } from '../models/OrderLine';
 import { OrderPoco } from '../models/OrderPoco';
@@ -14,9 +14,9 @@ import { Drug } from '../models/Drug';
 
 @Injectable()
 export class OrdersService {
-    private ordersUrl: string = '/api/Orders';
-    private orderUrl: string = '/api/Order';
-    private orderLinesUrl: string = '/api/OrderLines';
+    private ordersUrl: string = environment.apiUrl + '/api/Orders';
+    private orderUrl: string = environment.apiUrl + '/api/Order';
+    private orderLinesUrl: string = environment.apiUrl + '/api/OrderLines';
     private _guid: string = '00000000-0000-0000-0000-000000000000';
 
     constructor(private authHttp: AuthHttp) { }

@@ -1,4 +1,4 @@
-﻿import { Injectable }  from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import { tokenNotExpired, AuthHttp } from 'angular2-jwt';
 import { Router } from '@angular/router';
 import { CustomersService } from './customers.service';
@@ -14,8 +14,8 @@ declare var Auth0: any;
 
 @Injectable()
 export class AuthService {
+
     // Configure Auth0
-    
     auth0 = new Auth0({
         domain: myConfig.domain,
         clientID: myConfig.clientID,
@@ -26,13 +26,14 @@ export class AuthService {
     userProfile: Object;
 
     constructor(private router: Router, private customersService: CustomersService, private authHttp: AuthHttp) {
-        var result = this.auth0.parseHash(window.location.hash);
+        const result = this.auth0.parseHash(window.location.hash);
 
         // Set userProfile attribute of already saved profile
         this.userProfile = JSON.parse(localStorage.getItem('profile'));
 
         if (result && result.idToken) {
             localStorage.setItem('id_token', result.idToken);
+            localStorage.setItem('access_token', result.accessToken);
 
             // Fetch profile information
             this.auth0.getProfile(result.idToken, (error: any, profile:any) => {
@@ -45,13 +46,13 @@ export class AuthService {
                 localStorage.setItem('profile', JSON.stringify(profile));
                 this.userProfile = profile;
 
-                if (profile.user_metadata && profile.user_metadata.customerId)
+                if (profile.user_metadata && profile.user_metadata.customerId) {
                     this.router.navigate(['/order']);
-                else
+                } else {
                     this.router.navigate(['/register']);
+                }
             });
 
-            
         } else if (result && result.error) {
             alert('error: ' + result.error);
         }
@@ -69,7 +70,7 @@ export class AuthService {
             password: password,
         }, function (err: any) {
             if (err) {
-                console.error("something went wrong: " + err.message);
+                console.error('something went wrong: ' + err.message);
                 this.router.navigate(['/login', err.message]);
             }
         });
@@ -80,7 +81,7 @@ export class AuthService {
             connection: 'google-oauth2'
         }, function (err: any) {
             if (err) {
-                alert("something went wrong: " + err.message);
+                alert('something went wrong: ' + err.message);
             }
             console.log('google login successful');
         });
@@ -91,7 +92,7 @@ export class AuthService {
             connection: 'facebook'
         }, function (err: any) {
             if (err) {
-                alert("something went wrong: " + err.message);
+                alert('something went wrong: ' + err.message);
             }
             console.log('facebook login successful');
         });
@@ -126,8 +127,8 @@ export class AuthService {
     };
 
     confirmRegistration(customer: CustomerPoco): void {
-        var headers: any = { 'Accept': 'application/json', 'Content-Type': 'application/json' };
-        var data: any = JSON.stringify({
+        const headers: any = { 'Accept': 'application/json', 'Content-Type': 'application/json' };
+        const data: any = JSON.stringify({
             user_metadata: {
                 customerId: customer.customerID,
                 addressId: customer.addressID,
@@ -137,7 +138,7 @@ export class AuthService {
             }
         });
 
-        this.authHttp.patch('https://' + myConfig.domain + '/api/v2/users/' + this.userProfile["user_id"], data, { headers: headers })
+        this.authHttp.patch('https://' + myConfig.domain + '/api/v2/users/' + this.userProfile['user_id'], data, { headers: headers })
             .map(response => response.json())
                 .subscribe((response) => {
                     this.userProfile = response;
@@ -148,6 +149,5 @@ export class AuthService {
                     console.log(error.json().message)
             );
     }
-      
 
 }

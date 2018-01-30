@@ -4,7 +4,7 @@ import { AuthHttp } from 'angular2-jwt';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-
+import { environment } from '../../environments/environment';
 import { Doctor } from '../models/Doctor';
 import { Practice } from '../models/Practice';
 import { Shop } from '../models/Shop';
@@ -12,10 +12,10 @@ import { Title } from '../models/Title';
 
 @Injectable()
 export class SignupService {
-    private practicesUrl: string = '/api/Practices';
-    private shopsUrl: string = '/api/Shops';
-    private titlesUrl: string = '/api/Titles';
-    private addressesUrl: string = '/api/Addresses';
+    private practicesUrl: string = environment.apiUrl + '/api/Practices';
+    private shopsUrl: string = environment.apiUrl + '/api/Shops';
+    private titlesUrl: string = environment.apiUrl + '/api/Titles';
+    private addressesUrl: string = environment.apiUrl + '/api/Addresses';
 
     constructor(private authHttp: AuthHttp) { }
 
