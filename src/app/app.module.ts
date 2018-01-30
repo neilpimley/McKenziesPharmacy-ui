@@ -7,7 +7,7 @@ import { CollapseModule, TabsModule, ModalModule } from 'ngx-bootstrap';
 import { DialogModule } from 'primeng/components/dialog/dialog';
 import { ScheduleModule } from 'primeng/components/schedule/schedule';
 import { SimpleNotificationsModule, NotificationsService, SimpleNotificationsComponent } from 'angular2-notifications';
-import { AgmCoreModule } from 'angular2-google-maps/core';
+import { AgmCoreModule } from '@agm/core';
 import { UiSwitchModule } from 'ngx-toggle-switch/src';
 
 import './rxjs-operators';

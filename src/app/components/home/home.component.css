@@ -3,6 +3,6 @@
     background-size: cover;
     height: 400px;
 }
- .sebm-google-map-container {
+ agm-map {
   height: 300px;
 }

@@ -1,6 +1,5 @@
 ﻿import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AgmCoreModule } from '@agm/core';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
