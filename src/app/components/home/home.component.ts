@@ -1,5 +1,6 @@
 ﻿import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AgmCoreModule } from '@agm/core';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -8,7 +9,7 @@ import { AuthService } from '../../services/auth.service';
     styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-    
+
     public markers: any[] = [
         { lat: 54.5895613, lng: -5.9713866 },
         { lat: 54.620454, lng: -6.218681 },
@@ -23,6 +24,6 @@ export class HomeComponent {
         if (auth.authenticated) {
             this.router.navigate(['/order']);
         }
-    } 
+    }
 
 }
