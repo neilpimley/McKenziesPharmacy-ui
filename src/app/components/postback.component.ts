@@ -16,6 +16,6 @@ import { AuthService } from '../services/auth.service';
 export class PostBackComponent {
 
     constructor(public auth: AuthService) {
-        
-    } 
+        auth.handleAuthentication();
+    }
 }

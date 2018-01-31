@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { tokenNotExpired, AuthHttp } from 'angular2-jwt';
 import { Router } from '@angular/router';
 import { CustomersService } from './customers.service';
-import { myConfig } from '../config/auth.config';
+import { authConfig } from '../config/auth.config';
 import { environment } from '../../environments/environment';
 import { CustomerPoco } from '../models/CustomerPoco';
 import * as auth0 from 'auth0-js';
@@ -12,12 +12,12 @@ declare var Auth0: any;
 @Injectable()
 export class AuthService {
   auth0 = new auth0.WebAuth({
-    clientID: myConfig.CLIENT_ID,
-    domain: myConfig.CLIENT_DOMAIN,
-    responseType: 'token id_token access_token',
-    audience: myConfig.AUDIENCE,
-    redirectUri: myConfig.REDIRECT,
-    scope: myConfig.SCOPE
+    clientID: authConfig.CLIENT_ID,
+    domain: authConfig.CLIENT_DOMAIN,
+    responseType: 'token id_token',
+    audience: authConfig.AUDIENCE,
+    redirectUri: authConfig.REDIRECT,
+    scope: authConfig.SCOPE
   });
 
   userProfile: Object;
@@ -36,25 +36,23 @@ export class AuthService {
       if (authResult && authResult.accessToken && authResult.idToken) {
         console.log('loggged in ');
         window.location.hash = '';
-        localStorage.setItem('access_token', authResult.accessToken);
-        localStorage.setItem('id_token', authResult.idToken);
+        this.setSession(authResult);
+        this.getProfile(authResult.accessToken);
+      }
+    });
+  }
 
-        this.auth0.client.userInfo(
-            authResult.accessToken,
-            (err, profile) => {
-            console.log('profile: ' + profile);
-            if (profile) {
-                localStorage.setItem('profile', JSON.stringify(profile));
-                this.userProfile = profile;
-
-                if (profile.user_metadata && profile.user_metadata.customerId) {
-                    this.router.navigate(['/order']);
-                } else {
-                    this.router.navigate(['/register']);
-                }
-            }
-        });
-
+  public getProfile(accessToken: any): void {
+    this.auth0.client.userInfo(accessToken, (err, profile) => {
+      if (profile) {
+        localStorage.setItem('profile', JSON.stringify(profile));
+        console.log('profile:' + profile);
+        this.userProfile = profile;
+        if (profile.user_metadata && profile.user_metadata.customerId) {
+          this.router.navigate(['/order']);
+        } else {
+          this.router.navigate(['/register']);
+        }
       }
     });
   }
@@ -77,26 +75,13 @@ export class AuthService {
         }
       }
     );
-    /*
-     this.auth0.login({
-        connection: 'Username-Password-Authentication',
-        responseType: 'token',
-        email: username,
-        password: password,
-    }, function (err: any) {
-        if (err) {
-            console.error('something went wrong: ' + err.message);
-            this.router.navigate(['/login', err.message]);
-        }
-    });
-    */
   }
 
-
   public authenticated(): any {
-    // Check if there's an unexpired JWT
-    // This searches for an item in localStorage with key == 'id_token'
-    return tokenNotExpired('id_token');
+    // Check whether the current time is past the
+    // access token's expiry time
+    const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
+    return new Date().getTime() < expiresAt;
   }
 
   public googleLogin(): void {
@@ -146,14 +131,19 @@ export class AuthService {
     // Remove token from localStorage
     localStorage.removeItem('access_token');
     localStorage.removeItem('id_token');
+    localStorage.removeItem('expires_at');
     localStorage.removeItem('profile');
     this.userProfile = undefined;
+    console.log('logged out');
     this.router.navigate(['/home']);
   }
 
-  private setUser(authResult) {
+  private setSession(authResult): void {
+    // Set the time that the access token will expire at
+    const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
+    localStorage.setItem('expires_at', expiresAt);
   }
 
   confirmRegistration(customer: CustomerPoco): void {
@@ -174,7 +164,7 @@ export class AuthService {
     this.authHttp
       .patch(
         'https://' +
-          myConfig.CLIENT_DOMAIN +
+          authConfig.CLIENT_DOMAIN +
           '/api/v2/users/' +
           this.userProfile['user_id'],
         data,

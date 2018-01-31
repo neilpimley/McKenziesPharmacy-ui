@@ -8,7 +8,7 @@ import { AuthService } from '../../services/auth.service';
     styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-    
+
     public markers: any[] = [
         { lat: 54.5895613, lng: -5.9713866 },
         { lat: 54.620454, lng: -6.218681 },
@@ -21,6 +21,7 @@ export class HomeComponent {
 
     constructor(private auth: AuthService, private router: Router) {
         if (auth.authenticated) {
+            console.log('User is logged in so redirect to order page');
             this.router.navigate(['/order']);
         }
     } 

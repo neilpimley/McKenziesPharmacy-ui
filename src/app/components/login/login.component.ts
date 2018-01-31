@@ -15,7 +15,7 @@ export class LoginComponent {
     };
 
     constructor(public auth: AuthService) { }
-    
+
     public login() {
         this.auth.login(this.model.username, this.model.password);
     }
