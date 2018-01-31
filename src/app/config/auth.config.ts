@@ -9,7 +9,7 @@ interface AuthConfig {
   };
 
 export const myConfig: AuthConfig = {
-    CLIENT_ID: 'Aic2JPyfxWWZASkGFaKKXkZZwnDvjtju',
+    CLIENT_ID: 'DMERsQEwLtGRkZ9jtFT09mKv0PGccZzf',
     CLIENT_DOMAIN: 'neilpimley.eu.auth0.com',
     AUDIENCE: 'https://mckenzies/api',
     REDIRECT: environment.callbackURL,
