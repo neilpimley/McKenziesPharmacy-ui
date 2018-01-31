@@ -3,9 +3,9 @@
 
 export class OrderLine {
 
-    orderLineID: string;
-    orderID: string;
-    drugID: string;
+    orderLineId: string;
+    orderId: string;
+    drugId: string;
     qty: number;
     createdOn: Date;
     orderLineStatus: number;

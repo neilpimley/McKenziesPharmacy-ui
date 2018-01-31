@@ -15,7 +15,7 @@ import { Drug } from '../../models/Drug';
 export class OrderComponent implements OnInit  {
     public  _guid: string = '00000000-0000-0000-0000-000000000000';
     public order: Order;
-    public orderid: string = '';
+    public orderId: string = '';
     public enableOrderButon: boolean = false;
     public toastOptions = {
         position: ['bottom', 'right'],
@@ -24,7 +24,7 @@ export class OrderComponent implements OnInit  {
     };
 
     public addedDrug: Drug = {
-        drugID: this._guid,
+        drugId: this._guid,
         drugName: '',
         drugDose: '',
         packSize: 0,
@@ -45,7 +45,7 @@ export class OrderComponent implements OnInit  {
         this.ordersService.getOrder()
             .subscribe((order) => {
                 this.order = order as Order;
-                this.orderid = order.orderID;
+                this.orderId = order.orderId;
             },
             (error) => {
                 console.log(error);
@@ -53,9 +53,9 @@ export class OrderComponent implements OnInit  {
     }
 
     public drugAdded(drug: Drug): void {
-        this.ordersService.addToBasket(drug.drugID, this.order.orderID)
+        this.ordersService.addToBasket(drug.drugId, this.order.orderId)
             .subscribe((orderLine) => {
-                this.addedDrug.drugID = orderLine.drugID;
+                this.addedDrug.drugId = orderLine.drugId;
                 this.notificationService.success('Success', 'Item has been added to order');
             },
             (error) => {

@@ -3,12 +3,12 @@
 
 export class Shop {
 
-    shopID: string;
+    shopId: string;
     shopName: string;
     phone: string;
     fax: string;
     email: string;
-    addressID: string;
+    addressId: string;
     createdOn: Date;
     modifiedOn: Date;
 }

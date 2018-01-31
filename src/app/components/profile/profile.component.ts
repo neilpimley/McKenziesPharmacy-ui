@@ -3,7 +3,7 @@ import { CustomersService } from '../../services/customers.service';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { SignupService } from '../../services/signup.service';
-import { NotificationsService } from  'angular2-notifications';
+import { NotificationsService } from 'angular2-notifications';
 
 import { Title } from '../../models/Title';
 import { Practice } from '../../models/Practice';
@@ -44,11 +44,11 @@ export class ProfileComponent implements OnInit {
         this.getShops();
         this.getPractices();
 
-        let user = this.authService.currentUser();
+        const user = this.authService.currentUser();
         console.log('user: ' + user.user_id);
         this.customersService.getCustomer(user.user_id).subscribe((customer) => {
             this.customer = customer as CustomerPoco;
-            this.getDoctors(customer.doctor.practiceID);
+            this.getDoctors(customer.doctor.practiceId);
         }, (error) => {
             console.log(error);
         });
@@ -74,7 +74,7 @@ export class ProfileComponent implements OnInit {
         this.addressSelected = true;
         let a = address.split(',');
         this.customer.address = {
-            addressID: this._guid,
+            addressId: this._guid,
             addressLine1: a[0],
             addressLine2: a[1],
             addressLine3: a[2],
@@ -131,7 +131,7 @@ export class ProfileComponent implements OnInit {
         this.customersService.updateCustomer(this.customer)
             .subscribe((customer) => {
                 this.customer = customer as CustomerPoco;
-                console.log('Customer saved: ' + this.customer.customerID);
+                console.log('Customer saved: ' + this.customer.customerId);
                 this.notificationService.success('Success', 'Your changes have been saved');
                 this.editMode = false;
             }, (error) => {

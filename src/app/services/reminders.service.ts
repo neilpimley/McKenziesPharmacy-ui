@@ -14,22 +14,22 @@ export class RemindersService {
 
     constructor(private authHttp: AuthHttp) { }
 
-    public getReminders(customerid: string): Observable<any[]> {
+    public getReminders(customerId: string): Observable<any[]> {
         console.log('Getting reminders...');
-        return this.authHttp.get(this.remindersUrl + '/' + customerid).map(this.extractData)
+        return this.authHttp.get(this.remindersUrl + '/' + customerId).map(this.extractData)
             .catch(this.handleError);
     }
 
     public addReminder(reminder: Reminder): Observable<Reminder[]> {
-        let bodyString = JSON.stringify(reminder);
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
+        const bodyString = JSON.stringify(reminder);
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const options = new RequestOptions({ headers: headers });
         return this.authHttp.post(this.remindersUrl, bodyString, options).map(this.extractData)
             .catch(this.handleError);
     }
 
     private extractData(res: Response) {
-        let body = res.json();
+        const body = res.json();
         return body || {};
     }
 

@@ -6,7 +6,7 @@
         </div>
         <div class="col-md-5">
             <h4>My order</h4>
-            <basket [orderId]="orderid" [drugId]="addedDrug.drugID" (canOrder)="toggleOrderButton($event)" (successOut)="showSuccess($event)" (errorOut)="showError($event)"></basket>
+            <basket [orderId]="orderId" [drugId]="addedDrug.drugId" (canOrder)="toggleOrderButton($event)" (successOut)="showSuccess($event)" (errorOut)="showError($event)"></basket>
         </div>
         <div class="col-md-3">
             <customer [canEdit]="true"></customer>

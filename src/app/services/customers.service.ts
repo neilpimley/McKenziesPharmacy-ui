@@ -17,26 +17,26 @@ export class CustomersService {
 
     constructor(private authHttp: AuthHttp) { }
 
-    public getCustomer(userid: string): Observable<CustomerPoco> {
-        let params = new URLSearchParams();
-        params.set('userid', userid);
+    public getCustomer(userId: string): Observable<CustomerPoco> {
+        const params = new URLSearchParams();
+        params.set('userId', userId);
         return this.authHttp.get(this.customersUrl, { search: params }).map(this.extractData)
             .catch(this.handleError);
     }
 
     public addCustomer(customer: CustomerPoco): Observable<any> {
-        let bodyString = JSON.stringify(customer);
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
+        const bodyString = JSON.stringify(customer);
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const options = new RequestOptions({ headers: headers });
         return this.authHttp.post(this.customersUrl, bodyString, options).map(this.extractData)
             .catch(this.handleError);
     }
 
     public updateCustomer(customer: CustomerPoco): Observable<any> {
-        let bodyString = JSON.stringify(customer);
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
-        return this.authHttp.put(this.customersUrl + '/' + customer.customerID, bodyString, options).map(this.extractData)
+        const bodyString = JSON.stringify(customer);
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const options = new RequestOptions({ headers: headers });
+        return this.authHttp.put(this.customersUrl + '/' + customer.customerId, bodyString, options).map(this.extractData)
             .catch(this.handleError);
     }
 

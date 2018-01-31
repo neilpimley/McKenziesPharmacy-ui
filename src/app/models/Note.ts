@@ -3,7 +3,7 @@
 
 export class Note {
 
-    noteID: string;
+    noteId: string;
     text: string;
     createdOn: Date;
 }

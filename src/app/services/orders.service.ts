@@ -17,7 +17,7 @@ export class OrdersService {
     private ordersUrl: string = environment.apiUrl + '/api/Orders';
     private orderUrl: string = environment.apiUrl + '/api/Order';
     private orderLinesUrl: string = environment.apiUrl + '/api/OrderLines';
-    private _guid: string = '00000000-0000-0000-0000-000000000000';
+    private _guid = '00000000-0000-0000-0000-000000000000';
 
     constructor(private authHttp: AuthHttp) { }
 
@@ -36,26 +36,26 @@ export class OrdersService {
             .catch(this.handleError);
     }
 
-    public submitOrder(orderid: string, order: OrderPoco): Observable<Order[]> {
-        let bodyString = JSON.stringify(order);
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
-        return this.authHttp.put(this.orderUrl + '/' + orderid, bodyString, options).map(this.extractData)
+    public submitOrder(orderId: string, order: OrderPoco): Observable<Order[]> {
+        const bodyString = JSON.stringify(order);
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const options = new RequestOptions({ headers: headers });
+        return this.authHttp.put(this.orderUrl + '/' + orderId, bodyString, options).map(this.extractData)
             .catch(this.handleError);
     }
 
     public addToBasket(drugId: string, orderId: string): Observable<Drug> {
-        let orderLine: OrderLine = {
-            orderLineID: this._guid,
-            drugID : drugId,
-            orderID: orderId,
+        const orderLine: OrderLine = {
+            orderLineId: this._guid,
+            drugId : drugId,
+            orderId: orderId,
             qty: 1,
             createdOn: new Date(),
             orderLineStatus: 0
         };
-        let bodyString = JSON.stringify(orderLine);
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
+        const bodyString = JSON.stringify(orderLine);
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const options = new RequestOptions({ headers: headers });
         return this.authHttp.post(this.orderLinesUrl, bodyString, options).map(this.extractData)
             .catch(this.handleError);
     }
@@ -66,7 +66,7 @@ export class OrdersService {
     }
 
     private extractData(res: Response) {
-        let body = res.json();
+        const body = res.json();
         return body || {};
     }
 

@@ -3,19 +3,19 @@
 
 export class Customer {
 
-    customerID: string;
-    userID: string;
+    customerId: string;
+    userId: string;
     email: string;
-    titleID: string;
+    titleId: string;
     firstname: string;
     lastname: string;
     sex: string;
     mobile: string;
     home: string;
     dob: Date;
-    addressID: string;
-    doctorID: string;
-    shopID: string;
+    addressId: string;
+    doctorId: string;
+    shopId: string;
     createdOn: Date;
     modifiedOn: Date;
     active: boolean;

@@ -3,9 +3,9 @@
 
 export class Doctor {
 
-    doctorID: string;
-    practiceID: string;
-    titleID: string;
+    doctorId: string;
+    practiceId: string;
+    titleId: string;
     firstname: string;
     surname: string;
     createdOn: Date;

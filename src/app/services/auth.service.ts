@@ -48,7 +48,6 @@ export class AuthService {
       if (profile) {
         profile.user_id = profile.sub;
         localStorage.setItem('profile', JSON.stringify(profile));
-        console.log('profile:' + JSON.stringify(profile));
         this.userProfile = profile;
         if (profile.user_metadata && profile.user_metadata.customerId) {
           this.router.navigate(['/order']);
@@ -140,6 +139,11 @@ export class AuthService {
     this.router.navigate(['/home']);
   }
 
+  private setProfile(idToken: any) {
+    const decodedToken = this.jwtHelper.decodeToken(idToken);
+    console.log(JSON.stringify('decodedToken:' + decodedToken));
+  }
+
   private setSession(authResult): void {
     // Set the time that the access token will expire at
     const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
@@ -155,10 +159,10 @@ export class AuthService {
     };
     const data: any = JSON.stringify({
       user_metadata: {
-        customerId: customer.customerID,
-        addressId: customer.addressID,
-        doctorId: customer.doctorID,
-        shopId: customer.shopID,
+        customer_id: customer.customerId,
+        address_id: customer.addressId,
+        doctor_id: customer.doctorId,
+        shop_id: customer.shopId,
         signed_up: true
       }
     });

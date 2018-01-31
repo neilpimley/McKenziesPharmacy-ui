@@ -3,8 +3,8 @@
 
 export class Reminder {
 
-    reminderID: string;
-    customerID: string;
+    reminderId: string;
+    customerId: string;
     sendTime: Date;
     sent: boolean;
     createdOn: Date;
