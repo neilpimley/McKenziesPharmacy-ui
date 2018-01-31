@@ -25,7 +25,13 @@ export class CustomersService {
     }
 
     public addCustomer(customer: CustomerPoco): Observable<any> {
-        const bodyString = JSON.stringify(customer);
+        customer.createdOn = new Date();
+        customer.address.createdOn = new Date();
+        delete customer.title;
+        delete customer.active;
+        let bodyString = JSON.stringify(customer);
+        console.log(bodyString);
+        bodyString = JSON.stringify({ Fullname: 'test persons'});
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
         return this.authHttp.post(this.customersUrl, bodyString, options).map(this.extractData)
@@ -40,9 +46,8 @@ export class CustomersService {
             .catch(this.handleError);
     }
 
-   
     private extractData(res: Response) {
-        let body = res.json();
+        const body = res.json();
         return body || {};
     }
 
