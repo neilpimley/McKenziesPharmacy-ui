@@ -21,6 +21,7 @@ export class HomeComponent {
 
     constructor(private auth: AuthService, private router: Router) {
         if (auth.authenticated) {
+            console.log('User is logged in so redirect to order page');
             this.router.navigate(['/order']);
         }
     }

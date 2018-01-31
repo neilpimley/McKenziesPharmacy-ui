@@ -10,7 +10,7 @@ import { environment } from '../../environments/environment';
 
 @Injectable()
 export class RemindersService {
-    private remindersUrl: string = '/api/Reminders';
+    private remindersUrl: string = environment.apiUrl + '/api/Reminders';
 
     constructor(private authHttp: AuthHttp) { }
 

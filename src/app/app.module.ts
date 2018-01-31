@@ -83,8 +83,8 @@ import { OrderSubmitComponent } from './components/order-submit/order-submit.com
     ],
     providers: [
         AuthGuard,
-        AuthProvider,
         AuthService,
+        AuthProvider,
         DrugsService,
         SignupService,
         NotificationsService,
