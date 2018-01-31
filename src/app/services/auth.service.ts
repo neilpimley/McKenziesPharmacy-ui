@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { tokenNotExpired, AuthHttp } from 'angular2-jwt';
+import { tokenNotExpired, AuthHttp, JwtHelper } from 'angular2-jwt';
 import { Router } from '@angular/router';
 import { CustomersService } from './customers.service';
 import { authConfig } from '../config/auth.config';
@@ -21,6 +21,7 @@ export class AuthService {
   });
 
   userProfile: Object;
+  jwtHelper: JwtHelper = new JwtHelper();
 
   constructor(
     private router: Router,
@@ -45,8 +46,9 @@ export class AuthService {
   public getProfile(accessToken: any): void {
     this.auth0.client.userInfo(accessToken, (err, profile) => {
       if (profile) {
+        profile.user_id = profile.sub;
         localStorage.setItem('profile', JSON.stringify(profile));
-        console.log('profile:' + profile);
+        console.log('profile:' + JSON.stringify(profile));
         this.userProfile = profile;
         if (profile.user_metadata && profile.user_metadata.customerId) {
           this.router.navigate(['/order']);

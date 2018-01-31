@@ -13,6 +13,6 @@ export const authConfig: AuthConfig = {
     CLIENT_DOMAIN: 'neilpimley.eu.auth0.com',
     AUDIENCE: 'https://mckenzies/api',
     REDIRECT: environment.callbackURL,
-    SCOPE: 'openid profile'
+    SCOPE: 'openid email profile'
 };
 

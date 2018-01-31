@@ -18,7 +18,7 @@ export class CustomerComponent {
         public customersService: CustomersService) {
         const user = auth.currentUser() as any;
         if (user) {
-            this.getCustomer(user.user_id);
+            this.getCustomer(user.sub);
         } else {
             console.log('Current user has not been loaded');
         }
