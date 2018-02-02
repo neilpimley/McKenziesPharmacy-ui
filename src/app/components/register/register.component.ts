@@ -31,6 +31,7 @@ export class RegisterComponent {
         { value: 'female', label: 'Female' },
     ];
     public submitted: boolean = false;
+    public postCodeEntered: boolean = false;
     public addresses: Address[] = new Array<Address>();
     public addressSelected: boolean = false;
     public showAddressList: boolean = false;

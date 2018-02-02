@@ -29,9 +29,9 @@ export class CustomersService {
         customer.address.createdOn = new Date();
         delete customer.title;
         delete customer.active;
-        let bodyString = JSON.stringify(customer);
+        delete customer.practiceId;
+        const bodyString = JSON.stringify(customer);
         console.log(bodyString);
-        bodyString = JSON.stringify({ Fullname: 'test persons'});
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
         return this.authHttp.post(this.customersUrl, bodyString, options).map(this.extractData)
@@ -39,6 +39,8 @@ export class CustomersService {
     }
 
     public updateCustomer(customer: CustomerPoco): Observable<any> {
+        delete customer.title;
+        delete customer.active;
         const bodyString = JSON.stringify(customer);
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });

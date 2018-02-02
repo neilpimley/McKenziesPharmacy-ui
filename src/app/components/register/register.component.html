@@ -1,6 +1,5 @@
 ﻿    <div class="container inner-page">
         <h2>Register as new customer</h2>
-        <small>submitted:{{submitted}}</small>
         <form (ngSubmit)="registerCustomer()" #registerForm="ngForm">
             <div class="row">
                 <div class="form-group col-md-6">
@@ -109,17 +108,22 @@
                     <div class="form-group">
                         <label for="Postcode">Postcode</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search by postcode" name="postcode" [(ngModel)]="customer.address.postcode" required />
+                            <input type="text" class="form-control" placeholder="Search by postcode" name="postcode" 
+                            [(ngModel)]="customer.address.postcode" (blur)="postCodeEntered=true" required />
                             <span class="input-group-btn">
                                 <button class="btn btn-primary" type="button" (click)="lookupAddress()"><i class="fa fa-search" aria-hidden="true"></i></button>
                             </span>
                         </div>
                     </div>
                     <div class="form-group">
-                        <select class="form-control" *ngIf="showAddressList" (change)="selectAddress($event.target.value)">
+                        <p *ngIf="showAddressList">Select an address</p>
+                        <select class="form-control" *ngIf="showAddressList" (change)="selectAddress($event.target.value)" >
                             <option value="">choose</option>
                             <option *ngFor="let address of addresses; let idx = index" [value]="idx">{{address.addressLine1}}, {{address.town}}</option>
                         </select>
+                        <p *ngIf="postCodeEntered && !showAddressList && !addressSelected">
+                            Click <i class="fa fa-search"></i> to search for an address
+                        </p>
                         <div id="address-fields" *ngIf="addressSelected">
                             <label for="AddressLine1">Address</label>
                             <input class="form-control" id="AddressLine1" name="AddressLine1" type="text" [(ngModel)]="customer.address.addressLine1" #addressLine1="ngModel" />
@@ -187,7 +191,7 @@
             <div class="col-md-12">
                 I agree to the <a routerLink="/terms">terms and conditions</a>
                 <ui-switch size="small" [(ngModel)]="agreeTerms" name="agreeTerms"></ui-switch>
-                <button class="btn btn-success float-right" type="submit" title="Register" [disabled]="!registerForm.valid">Register</button>
+                <button class="btn btn-success float-right" type="submit" title="Register" [disabled]="!(registerForm.valid && agreeTerms)">Register</button>
             </div>
         </div>
     </form>

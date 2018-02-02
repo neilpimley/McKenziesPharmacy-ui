@@ -35,7 +35,7 @@ export class AuthService {
         alert(`Error: ${err.errorDescription}`);
       }
       if (authResult && authResult.accessToken && authResult.idToken) {
-        console.log('loggged in ');
+        console.log('loggged in');
         window.location.hash = '';
         this.setSession(authResult);
         this.getProfile(authResult.accessToken);
@@ -44,9 +44,11 @@ export class AuthService {
   }
 
   public getProfile(accessToken: any): void {
+    console.log('getting profile....');
     this.auth0.client.userInfo(accessToken, (err, profile) => {
       if (profile) {
         profile.user_id = profile.sub;
+        console.log('saving profile: ' + JSON.stringify(profile));
         localStorage.setItem('profile', JSON.stringify(profile));
         this.userProfile = profile;
         if (profile.user_metadata && profile.user_metadata.customerId) {
@@ -153,6 +155,7 @@ export class AuthService {
   }
 
   confirmRegistration(customer: CustomerPoco): void {
+    console.log('Confirming registration....');
     const headers: any = {
       Accept: 'application/json',
       'Content-Type': 'application/json'
@@ -167,15 +170,10 @@ export class AuthService {
       }
     });
 
-    this.authHttp
-      .patch(
-        'https://' +
-          authConfig.CLIENT_DOMAIN +
-          '/api/v2/users/' +
-          this.userProfile['user_id'],
-        data,
-        { headers: headers }
-      )
+    const patchUrl = 'https://' + authConfig.CLIENT_DOMAIN + '/api/v2/users/' + this.userProfile['user_id'];
+    console.log('Sending data to' + patchUrl);
+    console.log('data: ' + data);
+    this.authHttp.patch(patchUrl, data, { headers: headers })
       .map(response => response.json())
       .subscribe(
         response => {
