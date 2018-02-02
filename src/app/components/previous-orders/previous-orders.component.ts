@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OrdersService } from '../../services/orders.service';
-
+import { BaseComponent } from '../base.component';
 import { OrderPoco } from '../../models/OrderPoco';
 
 @Component({
@@ -8,11 +8,13 @@ import { OrderPoco } from '../../models/OrderPoco';
   templateUrl: './previous-orders.component.html',
   styleUrls: ['./previous-orders.component.css']
 })
-export class PreviousOrdersComponent implements OnInit {
+export class PreviousOrdersComponent extends BaseComponent implements OnInit {
     public orders: OrderPoco[];
     public loadingOrders: boolean = false;
 
-    constructor(private ordersService: OrdersService) { }
+    constructor(private ordersService: OrdersService) {
+        super();
+     }
 
     ngOnInit() {
         this.loadingOrders = true;

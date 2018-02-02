@@ -1,13 +1,17 @@
 import { Component } from '@angular/core';
+import { BaseComponent } from '../base.component';
 
 @Component({
   selector: 'no-content',
   template: `
-    <div>
-      <h1>404: page missing</h1>
+  <div class="container inner-page">
+      <h2>Oops! Page not found</h2>
     </div>
   `
 })
-export class NotFoundComponent {
+export class NotFoundComponent extends BaseComponent {
 
+  constructor() {
+    super();
+  }
 }

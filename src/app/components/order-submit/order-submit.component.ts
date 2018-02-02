@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { OrdersService } from '../../services/orders.service';
 import { NotificationsService } from 'angular2-notifications';
 import { Router } from '@angular/router';
-
+import { BaseComponent } from '../base.component';
 import { OrderPoco } from '../../models/OrderPoco';
 
 @Component({
@@ -10,7 +10,7 @@ import { OrderPoco } from '../../models/OrderPoco';
   templateUrl: './order-submit.component.html',
   styles: ['h6 { margin-top: 20px;margin-bottom: 20px; }', '.buttons { margin-top: 20px; }']
 })
-export class OrderSubmitComponent implements OnInit {
+export class OrderSubmitComponent extends BaseComponent implements OnInit {
     public _guid: string = '00000000-0000-0000-0000-000000000000';
     public order: OrderPoco;
     public orderId: string = '';
@@ -18,6 +18,7 @@ export class OrderSubmitComponent implements OnInit {
 
     constructor(private notificationService: NotificationsService,
         private ordersService: OrdersService, private router: Router) {
+            super();
     }
 
 

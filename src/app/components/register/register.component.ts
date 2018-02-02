@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { SignupService } from '../../services/signup.service';
 import { AuthService } from '../../services/auth.service';
 import { CustomersService } from '../../services/customers.service';
-import { NotificationsService } from  'angular2-notifications';
+import { NotificationsService } from 'angular2-notifications';
 
 import { Title } from '../../models/Title';
 import { Practice } from '../../models/Practice';
@@ -11,6 +11,7 @@ import { Doctor } from '../../models/Doctor';
 import { Shop } from '../../models/Shop';
 import { CustomerPoco } from '../../models/CustomerPoco';
 import { Address } from '../../models/Address';
+import { BaseComponent } from '../base.component';
 
 
 @Component({
@@ -18,7 +19,7 @@ import { Address } from '../../models/Address';
     templateUrl: './register.component.html',
     styleUrls: ['/register.component.css']
 })
-export class RegisterComponent {
+export class RegisterComponent extends BaseComponent {
 
     public titles: Title[] = new Array<Title>();
     public practices: Practice[] = new Array<Practice>();
@@ -46,6 +47,7 @@ export class RegisterComponent {
     constructor(private signupService: SignupService, private authService: AuthService,
         private notificationService: NotificationsService,
         private customersService: CustomersService, private router: Router) {
+            super();
         this.practiceId = '';
     }
 

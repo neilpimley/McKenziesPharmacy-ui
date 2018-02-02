@@ -4,7 +4,7 @@ import { AuthService } from '../../services/auth.service';
 import { OrdersService } from '../../services/orders.service';
 import { NotificationsService } from  'angular2-notifications';
 import { Router } from '@angular/router';
-
+import { BaseComponent } from '../base.component';
 import { Order } from '../../models/Order';
 import { Drug } from '../../models/Drug';
 
@@ -12,7 +12,7 @@ import { Drug } from '../../models/Drug';
     selector: 'order',
     templateUrl: './order.component.html',
 })
-export class OrderComponent implements OnInit  {
+export class OrderComponent extends BaseComponent implements OnInit  {
     public  _guid: string = '00000000-0000-0000-0000-000000000000';
     public order: Order;
     public orderId: string = '';
@@ -32,8 +32,9 @@ export class OrderComponent implements OnInit  {
         modifiedOn:null
     };
 
-     constructor(private notificationService: NotificationsService, 
+     constructor(private notificationService: NotificationsService,
         private ordersService: OrdersService, private router: Router) {
+            super();
     }
 
     public ngOnInit() {

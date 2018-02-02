@@ -1,4 +1,5 @@
 ﻿import { Component } from '@angular/core';
+import { BaseComponent } from './base.component';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -13,9 +14,10 @@ import { AuthService } from '../services/auth.service';
         </div>
     `
 })
-export class PostBackComponent {
+export class PostBackComponent extends BaseComponent {
 
     constructor(public auth: AuthService) {
+        super()
         auth.handleAuthentication();
     }
 }
