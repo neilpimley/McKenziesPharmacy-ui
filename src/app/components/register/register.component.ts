@@ -52,7 +52,7 @@ export class RegisterComponent extends BaseComponent {
     }
 
     private prePopulateFields(): void {
-        let userProfile = this.authService.currentUser() as any;
+        const userProfile = this.authService.currentUser() as any;
         this.customer = {
             customerId: this._guid,
             userId: userProfile.user_id,
@@ -122,8 +122,6 @@ export class RegisterComponent extends BaseComponent {
     };
 
     public getDoctors(practice: any): void {
-        console.log('practiceID:' + this.practiceId);
-        console.log('practice:' + practice);
         this.practiceId = practice;
         this.signupService.getDoctorByPractice(this.practiceId)
             .subscribe((doctors) => {
