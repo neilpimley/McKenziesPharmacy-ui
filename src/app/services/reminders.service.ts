@@ -30,7 +30,7 @@ export class RemindersService {
 
     private extractData(res: Response) {
         const body = res.json();
-        return body || {};
+        return body.result || body || {};
     }
 
     private handleError(error: Response | any) {
