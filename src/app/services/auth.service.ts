@@ -51,7 +51,8 @@ export class AuthService {
         console.log('saving profile: ' + JSON.stringify(profile));
         localStorage.setItem('profile', JSON.stringify(profile));
         this.userProfile = profile;
-        if (profile.user_metadata && profile.user_metadata.customerId) {
+        let customerId = profile["http://mckenzies/customer_id"];
+        if (customerId) {
           this.router.navigate(['/order']);
         } else {
           this.router.navigate(['/register']);
@@ -171,8 +172,6 @@ export class AuthService {
     });
 
     const patchUrl = 'https://' + authConfig.CLIENT_DOMAIN + '/api/v2/users/' + this.userProfile['user_id'];
-    console.log('Sending data to' + patchUrl);
-    console.log('data: ' + data);
     this.authHttp.patch(patchUrl, data, { headers: headers })
       .map(response => response.json())
       .subscribe(

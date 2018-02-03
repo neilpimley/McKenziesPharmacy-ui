@@ -8,6 +8,6 @@ export const environment = {
     callbackURL: 'http://localhost:4200/postback',
     apiUrl: 'http://localhost:60001',
     appInsights: {
-        instrumentationKey: 'b0137cf3-7ae6-4309-8925-06a3b1c20508'
+        instrumentationKey: ''
     }
 };

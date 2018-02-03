@@ -54,12 +54,8 @@ export class DrugsComponent implements OnInit {
 
     public addFavourite(drug: DrugPoco): void {
         let user = this.authService.currentUser() as any;
-<<<<<<< HEAD
         let customerId = user["http://mckenzies/customer_id"];
-        this.drugsService.addFavourite(drug.drugID, customerId)
-=======
-        this.drugsService.addFavourite(drug.drugId, user.user_metadata.customerId)
->>>>>>> 7429dc020526f845c59afdae58fefde93d8aec4d
+        this.drugsService.addFavourite(drug.drugId, customerId)
             .subscribe((success) => {
                 this.succesOut.emit(success);
                 this.getFavourites();

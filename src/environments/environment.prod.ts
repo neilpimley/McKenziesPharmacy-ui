@@ -3,6 +3,6 @@ export const environment = {
     callbackURL: location.protocol + '//' +  location.host + '/postback',
     apiUrl: 'https://mckenziespharmacy.azurewebsites.net',
     appInsights: {
-        instrumentationKey: 'b0137cf3-7ae6-4309-8925-06a3b1c20508' 
+        instrumentationKey: '1f5ea2a1-c81c-4f31-aef1-7b8b02ce26f9' 
     }
 };
