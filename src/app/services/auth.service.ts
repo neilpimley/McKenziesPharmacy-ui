@@ -45,8 +45,9 @@ export class AuthService {
 
                 localStorage.setItem('profile', JSON.stringify(profile));
                 this.userProfile = profile;
+                let customerId = profile["http://mckenzies/customer_id"];
 
-                if (profile.user_metadata && profile.user_metadata.customerId) {
+                if (customerId) {
                     this.router.navigate(['/order']);
                 } else {
                     this.router.navigate(['/register']);
