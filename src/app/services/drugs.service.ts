@@ -13,7 +13,7 @@ import 'rxjs/add/operator/catch';
 export class DrugsService {
     private drugsUrl: string = environment.apiUrl + '/api/Drugs';
     private favouritesUrl: string = environment.apiUrl + '/api/Favourites';
-    private _guid: string = '00000000-0000-0000-0000-000000000000';
+    private _guid = '00000000-0000-0000-0000-000000000000';
 
     constructor(private authHttp: AuthHttp) { }
 
@@ -30,15 +30,15 @@ export class DrugsService {
     }
 
     public addFavourite(drugId: string, customerId: string): Observable<any[]> {
-        let favourite: Favourite = {
-            favouriteID: this._guid,
-            customerID: customerId,
-            drugID: drugId,
+        const favourite: Favourite = {
+            favouriteId: this._guid,
+            customerId: customerId,
+            drugId: drugId,
             createdOn: null
         }
-        let bodyString = JSON.stringify(favourite);
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
+        const bodyString = JSON.stringify(favourite);
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const options = new RequestOptions({ headers: headers });
         return this.authHttp.post(this.favouritesUrl, bodyString, options).map(this.extractData)
             .catch(this.handleError);
     }
@@ -51,7 +51,7 @@ export class DrugsService {
 
     private extractData(res: Response) {
         let body = res.json();
-        return body || { };
+        return body.result || body || { };
     }
 
     private handleError(error: Response | any) {

@@ -16,8 +16,12 @@ export class CustomerComponent {
 
     constructor(private auth: AuthService,
         public customersService: CustomersService) {
-        let user = auth.currentUser() as any;
-        this.getCustomer(user.user_id);
+        const user = auth.currentUser() as any;
+        if (user) {
+            this.getCustomer(user.sub);
+        } else {
+            console.log('Current user has not been loaded');
+        }
     }
 
     private getCustomer(customerId: string): void {
@@ -27,13 +31,9 @@ export class CustomerComponent {
                 this.loadingCustomer = false;
             }, (error) => {
                 console.log(error);
-                this.error = "Could not load customer";
+                this.error = 'Could not load customer';
                 this.loadingCustomer = false;
             });
     }
-
-    
-
-    
 
 }

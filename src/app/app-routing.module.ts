@@ -25,8 +25,7 @@ const routes: Routes = [
     },
     {
         path: 'postback',
-        component: PostBackComponent,
-        canActivate: [AuthGuard]
+        component: PostBackComponent
     },
     {
         path: 'register',

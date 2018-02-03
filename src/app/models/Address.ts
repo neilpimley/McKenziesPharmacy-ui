@@ -3,7 +3,7 @@
 
 export class Address {
 
-    addressID: string;
+    addressId: string;
     addressLine1: string;
     addressLine2: string;
     addressLine3: string;

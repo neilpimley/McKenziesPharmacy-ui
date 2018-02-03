@@ -3,7 +3,7 @@
 
 export class Drug {
 
-    drugID: string;
+    drugId: string;
     drugName: string;
     drugDose: string;
     packSize: number;

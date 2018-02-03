@@ -1,7 +1,5 @@
 ﻿    <div class="container inner-page">
         <h2>Register as new customer</h2>
-        <pre>{{diagnostic}}</pre>
-        <small>submitted:{{submitted}}</small>
         <form (ngSubmit)="registerCustomer()" #registerForm="ngForm">
             <div class="row">
                 <div class="form-group col-md-6">
@@ -28,14 +26,14 @@
             </div>
 
             <div class="row">
-                <div class="form-group col-md-2" [ngClass]="{'has-danger':submitted && customer.titleID === ''}">
-                    <label for="TitleID">Title</label>
-                    <select class="form-control" id="TitleID" name="TitleID" [(ngModel)]="customer.titleID" #titleID="ngModel" required>
+                <div class="form-group col-md-2" [ngClass]="{'has-danger':submitted && customer.titleId === ''}">
+                    <label for="titleId">Title</label>
+                    <select class="form-control" id="titleId" name="titleId" [(ngModel)]="customer.titleId" #titleId="ngModel" required>
                         <option value="">choose</option>
-                        <option *ngFor="let title of titles" [value]="title.titleID">{{title.titleName}}</option>
+                        <option *ngFor="let title of titles" [value]="title.titleId">{{title.titleName}}</option>
                     </select>
-                    <div *ngIf="titleID.errors && (titleID.dirty || titleID.touched)" class="alert alert-danger">
-                        <div [hidden]="!titleID.errors.required">
+                    <div *ngIf="titleId.errors && (titleId.dirty || titleId.touched)" class="alert alert-danger">
+                        <div [hidden]="!titleId.errors.required">
                             Title is required
                         </div>
                     </div>
@@ -110,17 +108,22 @@
                     <div class="form-group">
                         <label for="Postcode">Postcode</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search by postcode" name="postcode" [(ngModel)]="customer.address.postcode" required />
+                            <input type="text" class="form-control" placeholder="Search by postcode" name="postcode" 
+                            [(ngModel)]="customer.address.postcode" (blur)="postCodeEntered=true" required />
                             <span class="input-group-btn">
                                 <button class="btn btn-primary" type="button" (click)="lookupAddress()"><i class="fa fa-search" aria-hidden="true"></i></button>
                             </span>
                         </div>
                     </div>
                     <div class="form-group">
-                        <select class="form-control" *ngIf="showAddressList" (change)="selectAddress($event.target.value)">
+                        <p *ngIf="showAddressList">Select an address</p>
+                        <select class="form-control" *ngIf="showAddressList" (change)="selectAddress($event.target.value)" >
                             <option value="">choose</option>
                             <option *ngFor="let address of addresses; let idx = index" [value]="idx">{{address.addressLine1}}, {{address.town}}</option>
                         </select>
+                        <p *ngIf="postCodeEntered && !showAddressList && !addressSelected">
+                            Click <i class="fa fa-search"></i> to search for an address
+                        </p>
                         <div id="address-fields" *ngIf="addressSelected">
                             <label for="AddressLine1">Address</label>
                             <input class="form-control" id="AddressLine1" name="AddressLine1" type="text" [(ngModel)]="customer.address.addressLine1" #addressLine1="ngModel" />
@@ -145,38 +148,38 @@
                     </div>
                 </div>
                 <div class="col-md-8">
-                    <div class="form-group col-md-6" [ngClass]="{'has-danger':submitted && practiceID === ''}">
+                    <div class="form-group col-md-6" [ngClass]="{'has-danger':submitted && practiceId === ''}">
                         <label for="PracticeID">GP Surgery</label>
-                        <select [ngClass]="{'form-control-danger':submitted && practiceID ===_guid}" id="PracticeID" name="PracticeID" class="form-control" [(ngModel)]="practiceID" (ngModelChange)="getDoctors($event)" #practiceIDField="ngModel" required>
+                        <select [ngClass]="{'form-control-danger':submitted && practiceId ===_guid}" id="practiceIdField" name="practiceIdField" class="form-control" [(ngModel)]="practiceId" (ngModelChange)="getDoctors($event)" #practiceIdField="ngModel" required>
                             <option value="">choose</option>
-                            <option *ngFor="let practice of practices" [value]="practice.practiceID">{{practice.practiceName}}</option>
+                            <option *ngFor="let practice of practices" [value]="practice.practiceId">{{practice.practiceName}}</option>
                         </select>
-                        <div *ngIf="practiceIDField.errors && (practiceIDField.dirty || practiceIDField.touched)" class="alert alert-danger">
+                        <div *ngIf="practiceIdField.errors && (practiceIdField.dirty || practiceIdField.touched)" class="alert alert-danger">
                             <div [hidden]="!practiceIDField.errors.required">
                                 Practice is required
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-6" [ngClass]="{'has-danger':submitted && customer.doctorID === ''}">
-                        <label for="DoctorID">Doctor</label>
-                        <select [ngClass]="{'form-control-danger':submitted && customer.doctorID ===_guid}" id="DoctorID" name="DoctorID" class="form-control" [(ngModel)]="customer.doctorID"  #doctorID="ngModel" required>
+                    <div class="form-group col-md-6" [ngClass]="{'has-danger':submitted && customer.doctorId === ''}">
+                        <label for="doctorId">Doctor</label>
+                        <select [ngClass]="{'form-control-danger':submitted && customer.doctorId ===_guid}" id="doctorId" name="doctorId" class="form-control" [(ngModel)]="customer.doctorId"  #doctorId="ngModel" required>
                             <option value="">choose</option>
-                            <option *ngFor="let doctor of doctors" [value]="doctor.doctorID">Dr. {{doctor.firstname}} {{doctor.surname}}</option>
+                            <option *ngFor="let doctor of doctors" [value]="doctor.doctorId">Dr. {{doctor.firstname}} {{doctor.surname}}</option>
                         </select>
-                        <div *ngIf="doctorID.errors && (doctorID.dirty || doctorID.touched)" class="alert alert-danger">
-                            <div [hidden]="!doctorID.errors.required">
+                        <div *ngIf="doctorId.errors && (doctorId.dirty || doctorId.touched)" class="alert alert-danger">
+                            <div [hidden]="!doctorId.errors.required">
                                 Doctor is required
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-6" [ngClass]="{'has-danger':submitted && customer.shopID === ''}">
-                        <label for="ShopID">Nearest pharmacy</label>
-                        <select id="ShopID" name="ShopID" class="form-control" [(ngModel)]="customer.shopID" #shopID="ngModel" required="">
+                    <div class="form-group col-md-6" [ngClass]="{'has-danger':submitted && customer.shopId === ''}">
+                        <label for="shopId">Nearest pharmacy</label>
+                        <select id="shopId" name="shopId" class="form-control" [(ngModel)]="customer.shopId" #shopId="ngModel" required="">
                             <option value="">choose</option>
-                            <option *ngFor="let shop of shops" [value]="shop.shopID">{{shop.shopName}}</option>
+                            <option *ngFor="let shop of shops" [value]="shop.shopId">{{shop.shopName}}</option>
                         </select>
-                        <div *ngIf="shopID.errors && (shopID.dirty || shopID.touched)" class="alert alert-danger">
-                            <div [hidden]="!shopID.errors.required">
+                        <div *ngIf="shopId.errors && (shopId.dirty || shopId.touched)" class="alert alert-danger">
+                            <div [hidden]="!shopId.errors.required">
                                 Shop is required
                             </div>
                         </div>
@@ -188,7 +191,7 @@
             <div class="col-md-12">
                 I agree to the <a routerLink="/terms">terms and conditions</a>
                 <ui-switch size="small" [(ngModel)]="agreeTerms" name="agreeTerms"></ui-switch>
-                <button class="btn btn-success float-right" type="submit" title="Register" [disabled]="!registerForm.valid">Register</button>
+                <button class="btn btn-success float-right" type="submit" title="Register" [disabled]="!(registerForm.valid && agreeTerms)">Register</button>
             </div>
         </div>
     </form>

@@ -46,7 +46,7 @@ export class SignupService {
 
     private extractData(res: Response) {
         let body = res.json();
-        return body || {};
+        return body.result ||  body || {};
     }
 
     private handleError(error: Response | any) {

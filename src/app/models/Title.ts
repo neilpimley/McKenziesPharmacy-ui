@@ -3,7 +3,7 @@
 
 export class Title {
 
-    titleID: string;
+    titleId: string;
     titleName: string;
     createdOn: Date;
 }

@@ -30,7 +30,7 @@ export class BasketComponent implements OnInit {
     }
 
     ngOnInit() {
-        
+
     }
 
     public getOrderLines(orderId: string): void {
@@ -43,7 +43,7 @@ export class BasketComponent implements OnInit {
             },
             (error) => {
                 console.log(error);
-                this.error = "Could not load basket";
+                this.error = 'Could not load basket';
                 this.loadingOrderLines = false;
             });
     }
@@ -56,11 +56,11 @@ export class BasketComponent implements OnInit {
         if (!this.currentOrderLine) {
             return false;
         }
-        return this.currentOrderLine.drugID === orderLine.drugID ? true : false;
+        return this.currentOrderLine.drugId === orderLine.drugId ? true : false;
     }
 
     public removeFromBasket(orderLine: OrderLine): void {
-        this.ordersService.removeFromBasket(orderLine.orderLineID)
+        this.ordersService.removeFromBasket(orderLine.orderLineId)
             .subscribe((success) => {
                 this.getOrderLines(this.orderId);
                 this.successOut.emit('Item removed from basket');

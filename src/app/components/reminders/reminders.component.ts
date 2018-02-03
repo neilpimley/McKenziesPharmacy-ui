@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { BaseComponent } from '../base.component';
 import { ScheduleModule } from 'primeng/components/schedule/schedule';
 import { RemindersService } from '../../services/reminders.service';
 
@@ -6,14 +7,16 @@ import { RemindersService } from '../../services/reminders.service';
   selector: 'reminders',
   templateUrl: './reminders.component.html'
 })
-export class RemindersComponent implements OnInit {
+export class RemindersComponent extends BaseComponent implements OnInit {
     public reminders: any[];
     header: any;
     event: any;
     dialogVisible: boolean = false;
     idGen: number = 100;
 
-    constructor(private remindersService: RemindersService, private cd: ChangeDetectorRef) { }
+    constructor(private remindersService: RemindersService, private cd: ChangeDetectorRef) {
+        super();
+     }
 
     ngOnInit() {
        /* this.remindersService.getReminders()

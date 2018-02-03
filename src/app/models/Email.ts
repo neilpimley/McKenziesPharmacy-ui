@@ -3,8 +3,8 @@
 
 export class Email {
 
-    emailID: string;
-    customerID: string;
+    emailId: string;
+    customerId: string;
     toAddress: string;
     fromAddress: string;
     ccAddress: string;

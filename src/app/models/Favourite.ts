@@ -3,8 +3,8 @@
 
 export class Favourite {
 
-    favouriteID: string;
-    customerID: string;
-    drugID: string;
+    favouriteId: string;
+    customerId: string;
+    drugId: string;
     createdOn: Date;
 }

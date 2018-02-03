@@ -3,7 +3,7 @@
 
 export class ReminderOrder {
 
-    reminderOrderID: string;
-    reminderID: string;
-    orderID: string;
+    reminderorderId: string;
+    reminderId: string;
+    orderId: string;
 }

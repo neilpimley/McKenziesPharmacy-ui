@@ -4,7 +4,7 @@ import { AuthService } from '../../services/auth.service';
 import { OrdersService } from '../../services/orders.service';
 import { NotificationsService } from  'angular2-notifications';
 import { Router } from '@angular/router';
-
+import { BaseComponent } from '../base.component';
 import { Order } from '../../models/Order';
 import { Drug } from '../../models/Drug';
 
@@ -12,10 +12,10 @@ import { Drug } from '../../models/Drug';
     selector: 'order',
     templateUrl: './order.component.html',
 })
-export class OrderComponent implements OnInit  {
+export class OrderComponent extends BaseComponent implements OnInit  {
     public  _guid: string = '00000000-0000-0000-0000-000000000000';
     public order: Order;
-    public orderid: string = '';
+    public orderId: string = '';
     public enableOrderButon: boolean = false;
     public toastOptions = {
         position: ['bottom', 'right'],
@@ -24,7 +24,7 @@ export class OrderComponent implements OnInit  {
     };
 
     public addedDrug: Drug = {
-        drugID: this._guid,
+        drugId: this._guid,
         drugName: '',
         drugDose: '',
         packSize: 0,
@@ -32,8 +32,9 @@ export class OrderComponent implements OnInit  {
         modifiedOn:null
     };
 
-     constructor(private notificationService: NotificationsService, 
+     constructor(private notificationService: NotificationsService,
         private ordersService: OrdersService, private router: Router) {
+            super();
     }
 
     public ngOnInit() {
@@ -45,7 +46,7 @@ export class OrderComponent implements OnInit  {
         this.ordersService.getOrder()
             .subscribe((order) => {
                 this.order = order as Order;
-                this.orderid = order.orderID;
+                this.orderId = order.orderId;
             },
             (error) => {
                 console.log(error);
@@ -53,9 +54,9 @@ export class OrderComponent implements OnInit  {
     }
 
     public drugAdded(drug: Drug): void {
-        this.ordersService.addToBasket(drug.drugID, this.order.orderID)
+        this.ordersService.addToBasket(drug.drugId, this.order.orderId)
             .subscribe((orderLine) => {
-                this.addedDrug.drugID = orderLine.drugID;
+                this.addedDrug.drugId = orderLine.drugId;
                 this.notificationService.success('Success', 'Item has been added to order');
             },
             (error) => {

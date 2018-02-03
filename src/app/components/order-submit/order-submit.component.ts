@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { OrdersService } from '../../services/orders.service';
 import { NotificationsService } from 'angular2-notifications';
 import { Router } from '@angular/router';
-
+import { BaseComponent } from '../base.component';
 import { OrderPoco } from '../../models/OrderPoco';
 
 @Component({
@@ -10,14 +10,15 @@ import { OrderPoco } from '../../models/OrderPoco';
   templateUrl: './order-submit.component.html',
   styles: ['h6 { margin-top: 20px;margin-bottom: 20px; }', '.buttons { margin-top: 20px; }']
 })
-export class OrderSubmitComponent implements OnInit {
+export class OrderSubmitComponent extends BaseComponent implements OnInit {
     public _guid: string = '00000000-0000-0000-0000-000000000000';
     public order: OrderPoco;
-    public orderid: string = '';
+    public orderId: string = '';
     public loadingOrder: boolean = false;
 
     constructor(private notificationService: NotificationsService,
         private ordersService: OrdersService, private router: Router) {
+            super();
     }
 
 
@@ -33,8 +34,8 @@ export class OrderSubmitComponent implements OnInit {
                 this.order = order as OrderPoco;
                 this.order.smsReminder = true;
                 this.order.emailReminder = true;
-                this.orderid = order.orderID;
-                this.ordersService.getOrderLines(order.orderID).subscribe((orderLines) => {
+                this.orderId = order.orderId;
+                this.ordersService.getOrderLines(order.orderId).subscribe((orderLines) => {
                     this.order.items = orderLines;
                     this.loadingOrder = false;
                 }, 
@@ -52,9 +53,9 @@ export class OrderSubmitComponent implements OnInit {
     }
 
     public submitOrder(): void {
-        this.ordersService.submitOrder(this.orderid, this.order)
+        this.ordersService.submitOrder(this.orderId, this.order)
             .subscribe((orderLine) => {
-                this.orderid = this._guid;
+                this.orderId = this._guid;
                 this.router.navigate(['/order-confirmation']);
             },
             (error) => {

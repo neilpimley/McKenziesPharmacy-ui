@@ -3,9 +3,9 @@
 
 export class Order {
 
-    orderID: string;
+    orderId: string;
     orderDate: Date;
-    noteID: string;
-    customerID: string;
+    noteId: string;
+    customerId: string;
     orderStatus: number;
 }

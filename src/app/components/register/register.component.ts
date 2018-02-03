@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { SignupService } from '../../services/signup.service';
 import { AuthService } from '../../services/auth.service';
 import { CustomersService } from '../../services/customers.service';
-import { NotificationsService } from  'angular2-notifications';
+import { NotificationsService } from 'angular2-notifications';
 
 import { Title } from '../../models/Title';
 import { Practice } from '../../models/Practice';
@@ -11,6 +11,7 @@ import { Doctor } from '../../models/Doctor';
 import { Shop } from '../../models/Shop';
 import { CustomerPoco } from '../../models/CustomerPoco';
 import { Address } from '../../models/Address';
+import { BaseComponent } from '../base.component';
 
 
 @Component({
@@ -18,19 +19,20 @@ import { Address } from '../../models/Address';
     templateUrl: './register.component.html',
     styleUrls: ['/register.component.css']
 })
-export class RegisterComponent {
+export class RegisterComponent extends BaseComponent {
 
     public titles: Title[] = new Array<Title>();
     public practices: Practice[] = new Array<Practice>();
     public doctors: Doctor[] = new Array<Doctor>();
     public shops: Shop[] = new Array<Shop>();
     public customer: CustomerPoco;
-    public practiceID: string;
+    public practiceId: string;
     public genders: any = [
         { value: 'male', label: 'Male' },
         { value: 'female', label: 'Female' },
     ];
     public submitted: boolean = false;
+    public postCodeEntered: boolean = false;
     public addresses: Address[] = new Array<Address>();
     public addressSelected: boolean = false;
     public showAddressList: boolean = false;
@@ -45,33 +47,34 @@ export class RegisterComponent {
     constructor(private signupService: SignupService, private authService: AuthService,
         private notificationService: NotificationsService,
         private customersService: CustomersService, private router: Router) {
-        this.practiceID = '';
+            super();
+        this.practiceId = '';
     }
 
     private prePopulateFields(): void {
         let userProfile = this.authService.currentUser() as any;
-        this.customer = { 
-            customerID: this._guid,
-            userID: userProfile.user_id,
+        this.customer = {
+            customerId: this._guid,
+            userId: userProfile.user_id,
             email: userProfile.email,
-            titleID: '',
+            titleId: '',
             firstname: userProfile.given_name,
             lastname: userProfile.family_name,
-            fullname: "",
+            fullname: '',
             sex: userProfile.gender,
             mobile: null,
             home: null,
             dob: null,
-            addressID: this._guid,
-            doctorID: '',
-            shopID: '',
+            addressId: this._guid,
+            doctorId: '',
+            shopId: '',
             createdOn: null,
             modifiedOn: null,
             active: null,
             title: null,
-            practiceID: null,
+            practiceId: null,
             address: {
-                addressID: null,
+                addressId: null,
                 addressLine1: '',
                 addressLine2: '',
                 addressLine3: '',
@@ -119,8 +122,10 @@ export class RegisterComponent {
     };
 
     public getDoctors(practice: any): void {
-        this.practiceID = practice;
-        this.signupService.getDoctorByPractice(this.practiceID)
+        console.log('practiceID:' + this.practiceId);
+        console.log('practice:' + practice);
+        this.practiceId = practice;
+        this.signupService.getDoctorByPractice(this.practiceId)
             .subscribe((doctors) => {
                 this.doctors = doctors as Doctor[];
             },
@@ -172,5 +177,5 @@ export class RegisterComponent {
     }
 
     get diagnostic() { return JSON.stringify(this.customer); }
-    
+
 };

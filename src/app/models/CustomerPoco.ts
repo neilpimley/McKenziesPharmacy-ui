@@ -12,7 +12,7 @@ export class CustomerPoco extends Customer {
     doctor: Doctor;
     shop: Shop;
     address: Address;
-    practiceID: string;
+    practiceId: string;
     confirmEmail: string;
     password: string;
     confirmPassword: string;

@@ -3,13 +3,13 @@
 
 export class CollectScript {
 
-    orderID: string;
+    orderId: string;
     orderDate: Date;
     customer: string;
     customerAddress: string;
     orderStatus: number;
     numItems: number;
-    doctorID: string;
-    shopID: string;
+    doctorId: string;
+    shopId: string;
     notes: string;
 }

@@ -3,9 +3,9 @@
 
 export class Practice {
 
-    practiceID: string;
+    practiceId: string;
     practiceName: string;
-    addressID: string;
+    addressId: string;
     phone: string;
     emailAddress: string;
     createdOn: Date;

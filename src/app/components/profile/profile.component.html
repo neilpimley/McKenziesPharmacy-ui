@@ -67,15 +67,15 @@
                     </select>
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="DoctorID">Doctor</label>
-                    <select id="DoctorID" name="DoctorID" class="form-control" [(ngModel)]="customer.doctorID" [disabled]="!editMode">
-                        <option *ngFor="let doctor of doctors" [value]="doctor.doctorID">Dr. {{doctor.firstname}} {{doctor.surname}}</option>
+                    <label for="doctorId">Doctor</label>
+                    <select id="doctorId" name="doctorId" class="form-control" [(ngModel)]="customer.doctorId" [disabled]="!editMode">
+                        <option *ngFor="let doctor of doctors" [value]="doctor.doctorId">Dr. {{doctor.firstname}} {{doctor.surname}}</option>
                     </select>
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="ShopID">Nearest pharmacy</label>
-                    <select id="ShopID" name="ShopID" class="form-control" [(ngModel)]="customer.shopID" [disabled]="!editMode">
-                        <option *ngFor="let shop of shops" [value]="shop.shopID">{{shop.shopName}}</option>
+                    <label for="shopId">Nearest pharmacy</label>
+                    <select id="shopId" name="shopId" class="form-control" [(ngModel)]="customer.shopId" [disabled]="!editMode">
+                        <option *ngFor="let shop of shops" [value]="shop.shopId">{{shop.shopName}}</option>
                     </select>
                 </div>
             </div>

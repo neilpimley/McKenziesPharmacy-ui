@@ -21,6 +21,7 @@ import { OrdersService } from './services/orders.service';
 import { RemindersService } from './services/reminders.service';
 import { EventsService } from './services/events.service';
 import { AuthService } from './services/auth.service';
+import { MonitoringService } from './services/monitoring.service';
 import { AuthGuard } from './services/auth-guard.service';
 
 import { AuthProvider } from './providers/auth.provider';
@@ -41,6 +42,7 @@ import { OrderConfirmationComponent } from './components/order-confirmation/orde
 import { SignupComponent } from './components/signup/signup.component';
 import { RemindersComponent } from './components/reminders/reminders.component';
 import { OrderSubmitComponent } from './components/order-submit/order-submit.component';
+import { BaseComponent } from './components/base.component';
 
 @NgModule({
     imports: [
@@ -64,6 +66,7 @@ import { OrderSubmitComponent } from './components/order-submit/order-submit.com
     declarations: [
         AppComponent,
         routedComponents,
+        BaseComponent,
         PostBackComponent,
         DrugsComponent,
         HomeComponent,
@@ -83,15 +86,16 @@ import { OrderSubmitComponent } from './components/order-submit/order-submit.com
     ],
     providers: [
         AuthGuard,
-        AuthProvider,
         AuthService,
+        AuthProvider,
         DrugsService,
         SignupService,
         NotificationsService,
         CustomersService,
         OrdersService,
         EventsService,
-        RemindersService
+        RemindersService,
+        MonitoringService
     ],
     bootstrap: [AppComponent]
 })

@@ -31,5 +31,4 @@ export class NavBarComponent {
         this.signupModal.showModal = true;
     }
 
-    
 }

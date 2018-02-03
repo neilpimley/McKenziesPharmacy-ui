@@ -3,9 +3,9 @@
 
 export class OrderStatus {
 
-    orderStatusID: string;
-    userID: string;
-    orderID: string;
+    orderStatusId: string;
+    userId: string;
+    orderId: string;
     status: number;
     statusSetDate: Date;
     orderLineStatus: number;
