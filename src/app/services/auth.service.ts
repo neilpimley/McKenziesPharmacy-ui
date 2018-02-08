@@ -44,10 +44,11 @@ export class AuthService {
   }
 
   public getProfile(accessToken: any): void {
-    console.log('getting profile....');
+    console.log('Getting profile....');
     this.auth0.client.userInfo(accessToken, (err, profile) => {
       if (profile) {
         profile.user_id = profile.sub;
+        console.log('Profile retrieved: ' + JSON.stringify(profile));
         localStorage.setItem('profile', JSON.stringify(profile));
         this.userProfile = profile;
         const customerId = profile['http://mckenzies/customer_id'];
@@ -61,6 +62,7 @@ export class AuthService {
   }
 
   public currentUser(): any {
+    console.log('Current user: ' + JSON.stringify(this.userProfile));
     return this.userProfile;
   }
 

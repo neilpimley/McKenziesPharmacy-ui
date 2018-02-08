@@ -53,9 +53,10 @@ export class OrderSubmitComponent extends BaseComponent implements OnInit {
     }
 
     public submitOrder(): void {
-        this.ordersService.submitOrder(this.orderId, this.order)
-            .subscribe((orderLine) => {
-                this.orderId = this._guid;
+        console.log('Submitting order: ' + JSON.stringify(this.order));
+        this.ordersService.submitOrder(this.orderId, this.order.smsReminder, this.order.emailReminder)
+            .subscribe((order: OrderPoco) => {
+                this.order.orderId = order.orderId;
                 this.router.navigate(['/order-confirmation']);
             },
             (error) => {

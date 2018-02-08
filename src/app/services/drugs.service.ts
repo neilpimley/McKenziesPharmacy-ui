@@ -34,8 +34,9 @@ export class DrugsService {
             favouriteId: this._guid,
             customerId: customerId,
             drugId: drugId,
-            createdOn: null
+            createdOn: new Date()
         }
+        console.log('Adding Favourite:' + JSON.stringify(favourite));
         const bodyString = JSON.stringify(favourite);
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });

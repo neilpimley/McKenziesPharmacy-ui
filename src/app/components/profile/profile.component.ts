@@ -82,7 +82,7 @@ export class ProfileComponent extends BaseComponent implements OnInit {
             town: a[5],
             county: a[6],
             postcode: this.customer.address.postcode,
-            createdOn: null
+            createdOn: new Date()
         };
     }
 

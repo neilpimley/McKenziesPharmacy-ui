@@ -36,8 +36,12 @@ export class OrdersService {
             .catch(this.handleError);
     }
 
-    public submitOrder(orderId: string, order: OrderPoco): Observable<Order[]> {
-        const bodyString = JSON.stringify(order);
+    public submitOrder(orderId: string, smsReminder: boolean, emailReminder: boolean): Observable<OrderPoco> {
+        const reminders = {
+            smsReminder,
+            emailReminder
+        };
+        const bodyString = JSON.stringify(reminders);
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
         return this.authHttp.put(this.orderUrl + '/' + orderId, bodyString, options).map(this.extractData)
@@ -53,6 +57,7 @@ export class OrdersService {
             createdOn: new Date(),
             orderLineStatus: 0
         };
+        console.log('Adding to basket: ' + JSON.stringify(orderLine));
         const bodyString = JSON.stringify(orderLine);
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });

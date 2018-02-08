@@ -74,7 +74,7 @@ export class DrugsComponent implements OnInit {
             },
             (error) => {
                 console.error(error);
-                this.errorOut.emit('Could not add drug to favourites');
+                this.errorOut.emit('Could not remove item from favourites');
             });
     }
 

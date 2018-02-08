@@ -28,8 +28,8 @@ export class OrderComponent extends BaseComponent implements OnInit  {
         drugName: '',
         drugDose: '',
         packSize: 0,
-        createdOn: null,
-        modifiedOn:null
+        createdOn: new Date(),
+        modifiedOn: new Date()
     };
 
      constructor(private notificationService: NotificationsService,
@@ -40,7 +40,7 @@ export class OrderComponent extends BaseComponent implements OnInit  {
     public ngOnInit() {
         this.getOrder();
     }
-    
+
     private getOrder(): void {
         console.log('Get Order');
         this.ordersService.getOrder()
