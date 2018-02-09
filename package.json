@@ -24,6 +24,7 @@
         "@angular/router": "^4.0.0",
         "angular2-jwt": "^0.2.3",
         "angular2-notifications": "^0.4.46",
+        "angular-font-awesome": "^3.1.2",
         "applicationinsights-js": "^1.0.8",
         "auth0-js": "^9.0.0",
         "bootstrap": "4.0.0-alpha.6",

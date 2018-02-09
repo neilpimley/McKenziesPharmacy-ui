@@ -55,7 +55,7 @@ export class RegisterComponent extends BaseComponent {
         const userProfile = this.authService.currentUser() as any;
         this.customer = {
             customerId: this._guid,
-            userId: userProfile.user_id,
+            userId: userProfile.sub,
             email: userProfile.email,
             titleId: '',
             firstname: userProfile.given_name,

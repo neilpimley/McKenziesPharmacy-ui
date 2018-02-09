@@ -47,10 +47,9 @@ export class AuthService {
     console.log('Getting profile....');
     this.auth0.client.userInfo(accessToken, (err, profile) => {
       if (profile) {
-        profile.user_id = profile.sub;
+        this.userProfile = profile;
         console.log('Profile retrieved: ' + JSON.stringify(profile));
         localStorage.setItem('profile', JSON.stringify(profile));
-        this.userProfile = profile;
         const customerId = profile['http://mckenzies/customer_id'];
         if (customerId) {
           this.router.navigate(['/order']);
@@ -62,8 +61,7 @@ export class AuthService {
   }
 
   public currentUser(): any {
-    console.log('Current user: ' + JSON.stringify(this.userProfile));
-    return this.userProfile;
+    return JSON.parse(localStorage.getItem('profile'));
   }
 
   public login(username: string, password: string) {
@@ -172,7 +170,7 @@ export class AuthService {
       }
     });
 
-    const patchUrl = 'https://' + authConfig.CLIENT_DOMAIN + '/api/v2/users/' + this.userProfile['user_id'];
+    const patchUrl = 'https://' + authConfig.CLIENT_DOMAIN + '/api/v2/users/' + this.userProfile['sub'];
     this.authHttp.patch(patchUrl, data, { headers: headers })
       .map(response => response.json())
       .subscribe(

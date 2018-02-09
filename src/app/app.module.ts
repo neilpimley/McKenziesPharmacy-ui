@@ -9,6 +9,7 @@ import { ScheduleModule } from 'primeng/components/schedule/schedule';
 import { SimpleNotificationsModule, NotificationsService, SimpleNotificationsComponent } from 'angular2-notifications';
 import { AgmCoreModule } from '@agm/core';
 import { UiSwitchModule } from 'ngx-toggle-switch/src';
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 import './rxjs-operators';
 import { AppComponent } from './app.component';
@@ -61,7 +62,8 @@ import { BaseComponent } from './components/base.component';
         TabsModule.forRoot(),
         AgmCoreModule.forRoot({
             apiKey: 'AIzaSyBLTDMJ-uKfUMbhCgFWtWKi5H4Jvn_jyHc'
-        })
+        }),
+        AngularFontAwesomeModule
     ],
     declarations: [
         AppComponent,

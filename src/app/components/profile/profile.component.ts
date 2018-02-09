@@ -9,6 +9,7 @@ import { Title } from '../../models/Title';
 import { Practice } from '../../models/Practice';
 import { Doctor } from '../../models/Doctor';
 import { Shop } from '../../models/Shop';
+import { Address } from '../../models/Address';
 import { CustomerPoco } from '../../models/CustomerPoco';
 
 @Component({
@@ -24,8 +25,10 @@ export class ProfileComponent extends BaseComponent implements OnInit {
     public doctors: Doctor[] = [];
     public shops: Shop[] = [];
     public customer: CustomerPoco;
-    public addresses: string[] = [];
     public practiceID: string;
+    public submitted: boolean = false;
+    public postCodeEntered: boolean = false;
+    public addresses: Address[] = new Array<Address>();
     public addressSelected: boolean = true;
     public showAddressList: boolean = false;
     public toastOptions = {
@@ -46,9 +49,10 @@ export class ProfileComponent extends BaseComponent implements OnInit {
         this.getPractices();
 
         const user = this.authService.currentUser();
-        console.log('user: ' + user.user_id);
-        this.customersService.getCustomer(user.user_id).subscribe((customer) => {
+        console.log('Current user: ' + JSON.stringify(user));
+        this.customersService.getCustomer(user.sub).subscribe((customer) => {
             this.customer = customer as CustomerPoco;
+            console.log('Customer retrieved: ' + JSON.stringify(customer));
             this.getDoctors(customer.doctor.practiceId);
         }, (error) => {
             console.log(error);
@@ -61,13 +65,14 @@ export class ProfileComponent extends BaseComponent implements OnInit {
         this.addressSelected = false;
         this.addresses = [];
         this.signupService.getAddresses(this.customer.address.postcode)
-            .subscribe(response => {
+            .subscribe((response) => {
                 console.log(response);
-                this.addresses = response.Addresses as string[];
+                this.addresses = response as Address[];
                 this.showAddressList = true;
-            }, error => {
-            });
+            }, (error) => {
+        });
     }
+
 
     public selectAddress(address: any): void {
         console.log(address + ' - selected');

@@ -46,7 +46,9 @@
                     <a class="nav-link" routerLink="/previous-orders" routerLinkActive="active">Previous Orders</a>
                 </li>
             </ul>
-
+            <button routerLink="/order" class="btn" style='background-color:transparent;'>
+                <fa name="shopping-basket" inverse="true"></fa>
+            </button>
             <button *ngIf="router.url !='register'" class="btn btn-outline-secondary my-2 my-sm-0" (click)="logout()">Logout</button>
             <button *ngIf="router.url ==='register'" class="btn btn-outline-secondary my-2 my-sm-0" (click)="logout()">Cancel</button>
 
