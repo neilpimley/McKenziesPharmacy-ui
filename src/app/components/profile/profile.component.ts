@@ -25,7 +25,7 @@ export class ProfileComponent extends BaseComponent implements OnInit {
     public doctors: Doctor[] = [];
     public shops: Shop[] = [];
     public customer: CustomerPoco;
-    public practiceID: string;
+    public practiceId: string;
     public submitted: boolean = false;
     public postCodeEntered: boolean = false;
     public addresses: Address[] = new Array<Address>();
@@ -123,8 +123,8 @@ export class ProfileComponent extends BaseComponent implements OnInit {
 
     public getDoctors(practice: any): void {
         console.log('here:' + practice);
-        this.practiceID = practice;
-        this.signupService.getDoctorByPractice(this.practiceID)
+        this.practiceId = practice;
+        this.signupService.getDoctorByPractice(this.practiceId)
             .subscribe(doctors => {
                 this.doctors = doctors as Doctor[];
             },
