@@ -170,7 +170,7 @@ export class RegisterComponent extends BaseComponent {
                 this.authService.confirmRegistration(this.customer);
             }, (error) => {
                 console.log(error);
-                this.notificationService.error('Error', 'An error has prevented your succes registration');
+                this.notificationService.error('Error', error);
             });
     }
 
