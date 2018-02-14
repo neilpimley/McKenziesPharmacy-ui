@@ -49,7 +49,7 @@ export class AuthService {
       if (profile) {
         this.userProfile = profile;
         console.log('Profile retrieved: ' + JSON.stringify(profile));
-        localStorage.setItem('profile', JSON.stringify(profile));
+        this.setProfile(profile);
         const customerId = profile['http://mckenzies/customer_id'];
         if (customerId) {
           this.router.navigate(['/order']);
@@ -58,6 +58,10 @@ export class AuthService {
         }
       }
     });
+  }
+
+  public setProfile(profile: any) {
+    localStorage.setItem('profile', JSON.stringify(profile));
   }
 
   public currentUser(): any {
@@ -141,11 +145,6 @@ export class AuthService {
     this.router.navigate(['/home']);
   }
 
-  private setProfile(idToken: any) {
-    const decodedToken = this.jwtHelper.decodeToken(idToken);
-    console.log(JSON.stringify('decodedToken:' + decodedToken));
-  }
-
   private setSession(authResult): void {
     // Set the time that the access token will expire at
     const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
@@ -154,32 +153,4 @@ export class AuthService {
     localStorage.setItem('expires_at', expiresAt);
   }
 
-  confirmRegistration(customer: CustomerPoco): void {
-    console.log('Confirming registration....');
-    const headers: any = {
-      Accept: 'application/json',
-      'Content-Type': 'application/json'
-    };
-    const data: any = JSON.stringify({
-      user_metadata: {
-        customer_id: customer.customerId,
-        address_id: customer.addressId,
-        doctor_id: customer.doctorId,
-        shop_id: customer.shopId,
-        signed_up: true
-      }
-    });
-
-    const patchUrl = 'https://' + authConfig.CLIENT_DOMAIN + '/api/v2/users/' + this.userProfile['sub'];
-    this.authHttp.patch(patchUrl, data, { headers: headers })
-      .map(response => response.json())
-      .subscribe(
-        response => {
-          this.userProfile = response;
-          localStorage.setItem('profile', JSON.stringify(response));
-          this.router.navigate(['/order']);
-        },
-        error => console.log(error.json().message)
-      );
-  }
 }

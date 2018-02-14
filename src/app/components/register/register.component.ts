@@ -166,8 +166,8 @@ export class RegisterComponent extends BaseComponent {
         this.customersService.addCustomer(this.customer)
             .subscribe((customer) => {
                 this.customer = customer as CustomerPoco;
-                console.log('Customer registered');
-                this.authService.confirmRegistration(this.customer);
+                console.log('Customer registered:' + JSON.stringify(this.customer));
+                this.router.navigate(['/order']);
             }, (error) => {
                 console.log(error);
                 this.notificationService.error('Error', error);

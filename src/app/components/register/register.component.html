@@ -191,7 +191,7 @@
             <div class="col-md-12">
                 I agree to the <a routerLink="/terms">terms and conditions</a>
                 <ui-switch size="small" [(ngModel)]="agreeTerms" name="agreeTerms"></ui-switch>
-                <button class="btn btn-success float-right" type="submit" title="Register" [disabled]="!(registerForm.valid && agreeTerms)">Register</button>
+                <button class="btn btn-success float-right" type="submit" title="Register" [disabled]="!(registerForm.valid && agreeTerms && addressSelected)">Register</button>
             </div>
         </div>
     </form>
