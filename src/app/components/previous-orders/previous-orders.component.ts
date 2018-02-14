@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { OrdersService } from '../../services/orders.service';
+import { NotificationsService } from 'angular2-notifications';
+import { Router } from '@angular/router';
 import { BaseComponent } from '../base.component';
 import { OrderPoco } from '../../models/OrderPoco';
 
@@ -12,9 +14,10 @@ export class PreviousOrdersComponent extends BaseComponent implements OnInit {
     public orders: OrderPoco[];
     public loadingOrders: boolean = false;
 
-    constructor(private ordersService: OrdersService) {
-        super();
-     }
+    constructor(private notificationService: NotificationsService,
+        private ordersService: OrdersService, private router: Router) {
+            super();
+    }
 
     ngOnInit() {
         this.loadingOrders = true;
@@ -23,6 +26,16 @@ export class PreviousOrdersComponent extends BaseComponent implements OnInit {
             this.loadingOrders = false;
         }, (error) => {
 
+        });
+    }
+
+    public reOrder(orderId: any) {
+        this.ordersService.reOrder(orderId)
+        .subscribe((order: OrderPoco) => {
+            this.router.navigate(['/order-confirmation']);
+        },
+        (error) => {
+            this.notificationService.error('Error', 'There has been a problem with your reorder', { timeOut: 0 });
         });
     }
 

@@ -17,6 +17,7 @@ export class OrdersService {
     private ordersUrl: string = environment.apiUrl + '/api/Orders';
     private orderUrl: string = environment.apiUrl + '/api/Order';
     private orderLinesUrl: string = environment.apiUrl + '/api/OrderLines';
+    private reOrderUrl: string = environment.apiUrl + '/api/Reorder';
     private _guid = '00000000-0000-0000-0000-000000000000';
 
     constructor(private authHttp: AuthHttp) { }
@@ -45,6 +46,13 @@ export class OrdersService {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
         return this.authHttp.put(this.orderUrl + '/' + orderId, bodyString, options).map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    public reOrder(orderId: string): Observable<OrderPoco> {
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const options = new RequestOptions({ headers: headers });
+        return this.authHttp.put(this.reOrderUrl + '/' + orderId,options).map(this.extractData)
             .catch(this.handleError);
     }
 
