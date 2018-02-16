@@ -32,7 +32,7 @@ export class PreviousOrdersComponent extends BaseComponent implements OnInit {
     public reOrder(orderId: any) {
         this.ordersService.reOrder(orderId)
         .subscribe((order: OrderPoco) => {
-            this.router.navigate(['/order-confirmation']);
+            this.router.navigate(['/order-submit']);
         },
         (error) => {
             this.notificationService.error('Error', 'There has been a problem with your reorder', { timeOut: 0 });
